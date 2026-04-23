@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import BIRST_LOGO from '../../assets/BIRST_LOGO.svg';
 
 const LoadingScreen = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -52,8 +51,8 @@ const LoadingScreen = () => {
       <div className="text-center">
         {/* Company Logo */}
         <img
-          src={BIRST_LOGO}
-          alt="BIRSTBD Logo"
+          src="https://ik.imagekit.io/2lax2ytm2/Logo-v1%20(1).png"
+          alt="Redleaf-BD Logo"
           className="w-64 h-64 md:w-80 md:h-80 mx-auto object-contain animate-pulse"
         />
       </div>

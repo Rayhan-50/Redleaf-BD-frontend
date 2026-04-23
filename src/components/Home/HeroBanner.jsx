@@ -1,113 +1,230 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import gsap from 'gsap';
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { TbPlant, TbMeat, TbSoup, TbBottle, TbPepper, TbLeaf, TbCup, TbLemon, TbApple, TbDeviceLaptop, TbShirt, TbRun, TbGrain } from 'react-icons/tb';
+
+import heroImg1 from '../../assets/Gemini_Generated_Image_kplmc6kplmc6kplm.png';
+import heroImg2 from '../../assets/Gemini_Generated_Image_malwljmalwljmalw.png';
+import staticPromoImg from '../../assets/Gemini_Generated_Image_vrp6tvvrp6tvvrp6.png';
+import bottomImg1 from '../../assets/10004.jpeg';
+import bottomImg2 from '../../assets/10006.png';
+import bottomImg3 from '../../assets/Gemini_Generated_Image_xs146axs146axs14.png';
+
+const IconWrapper = ({ children }) => (
+  <div className="text-red-500 bg-red-50 p-1.5 rounded-md flex items-center justify-center shrink-0">
+    {children}
+  </div>
+);
+
+const categories = [
+  { id: 1,  name: 'Honey',               icon: <IconWrapper><TbSoup className="w-4 h-4 stroke-[2]" /></IconWrapper>,         slug: '/products?cat=honey',      hasChildren: true },
+  { id: 2,  name: 'Poultry & Meat',       icon: <IconWrapper><TbMeat className="w-4 h-4 stroke-[2]" /></IconWrapper>,         slug: '/products?cat=meat',       hasChildren: true },
+  { id: 3,  name: 'Rice, Pulse & Grains', icon: <IconWrapper><TbPlant className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=rice',       hasChildren: true },
+  { id: 4,  name: 'Oil',                  icon: <IconWrapper><TbBottle className="w-4 h-4 stroke-[2]" /></IconWrapper>,       slug: '/products?cat=oil',        hasChildren: true },
+  { id: 5,  name: 'Spices',               icon: <IconWrapper><TbPepper className="w-4 h-4 stroke-[2]" /></IconWrapper>,       slug: '/products?cat=spices',     hasChildren: true },
+  { id: 6,  name: 'Super Foods',          icon: <IconWrapper><TbLeaf className="w-4 h-4 stroke-[2]" /></IconWrapper>,         slug: '/products?cat=superfoods', hasChildren: true },
+  { id: 7,  name: 'Tea, Snacks & Drinks', icon: <IconWrapper><TbCup className="w-4 h-4 stroke-[2]" /></IconWrapper>,          slug: '/products?cat=tea',        hasChildren: true },
+  { id: 8,  name: 'Nuts & Dates',         icon: <IconWrapper><TbGrain className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=nuts',       hasChildren: true },
+  { id: 9,  name: 'Pickle & Chutney',     icon: <IconWrapper><TbLemon className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=pickles',    hasChildren: true },
+  { id: 10, name: 'Fruits & Vegetables',  icon: <IconWrapper><TbApple className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=fruits',     hasChildren: true },
+  { id: 11, name: 'Electronics',          icon: <IconWrapper><TbDeviceLaptop className="w-4 h-4 stroke-[2]" /></IconWrapper>, slug: '/products?cat=electronics', hasChildren: true },
+  { id: 12, name: 'Shoes',                icon: <IconWrapper><TbRun className="w-4 h-4 stroke-[2]" /></IconWrapper>,          slug: '/products?cat=shoes',      hasChildren: true },
+  { id: 13, name: 'Clothing',             icon: <IconWrapper><TbShirt className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=clothing',   hasChildren: true },
+];
+
+// Hero banner slides (top row - large)
+const heroBannersTop = [
+  {
+    id: 1,
+    bg: 'bg-gradient-to-br from-[#e8f5e9] via-[#f1f8e9] to-[#fff8e1]',
+    label: '🌿 Built on Purity',
+    title: "Fresh From\nNature's Heart",
+    subtitle: 'প্রকৃতির সেরা সংকলন',
+    badge: '11 Years',
+    badgeSub: 'of Commitment',
+    stats: [
+      { value: '26+', label: 'Products' },
+      { value: '400K+', label: 'Customers' },
+      { value: '50+', label: 'Corporate Clients' },
+    ],
+    img: heroImg1,
+    accentColor: '#0A3D2A',
+    textColor: 'text-[#0A3D2A]',
+  },
+  {
+    id: 2,
+    bg: 'bg-gradient-to-br from-[#fff8e1] via-[#ffe0b2] to-[#fff3e0]',
+    label: '🔥 Exclusive Offer',
+    title: 'খাঁটি পণ্যে\nবিশেষ ছাড়',
+    subtitle: '১১ বছর পূর্তি উপলক্ষে',
+    badge: '১১%',
+    badgeSub: 'পর্যন্ত ছাড়',
+    stats: [],
+    img: heroImg2,
+    accentColor: '#e63946',
+    textColor: 'text-red-600',
+  },
+];
+
+// Bottom banner row (smaller)
+const heroBannersBottom = [
+  {
+    id: 3,
+    bg: 'bg-gradient-to-br from-[#e8f5e9] to-[#f1f8e9]',
+    title: 'বিশুদ্ধ দুধে',
+    subtitle: 'পুষ্টির নিশ্চয়তা',
+    img: bottomImg1,
+    accentColor: '#0A3D2A',
+    textColor: 'text-[#0A3D2A]',
+    wide: false,
+  },
+  {
+    id: 4,
+    bg: 'bg-gradient-to-br from-[#fff8e1] to-[#ffe0b2]',
+    title: 'সুগন্ধি চিনিগুড়া চাল',
+    subtitle: 'স্পেশাল রান্নার জন্য',
+    img: bottomImg2,
+    accentColor: '#0A3D2A',
+    textColor: 'text-[#0A3D2A]',
+    wide: false,
+  },
+  {
+    id: 5,
+    bg: 'bg-gradient-to-br from-[#fce4ec] to-[#ffecec]',
+    title: 'দেশি গরুর গোশত',
+    subtitle: 'হালাল ভাবে জবাইকৃত',
+    img: bottomImg3,
+    accentColor: '#e63946',
+    textColor: 'text-red-600',
+    wide: false,
+  },
+];
 
 const HeroBanner = () => {
-  const honeyDripRef = useRef(null);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [topSlide, setTopSlide] = useState(0);
 
-  useEffect(() => {
-    // GSAP slow drip animation for the honey shapes
-    gsap.to('.drip', {
-      y: 15,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-      stagger: {
-        each: 0.3,
-        from: 'random'
-      }
-    });
-  }, []);
+  const nextSlide = () => setTopSlide((s) => (s + 1) % heroBannersTop.length);
+  const prevSlide = () => setTopSlide((s) => (s - 1 + heroBannersTop.length) % heroBannersTop.length);
+
+  const active = heroBannersTop[topSlide];
 
   return (
-    <div className="relative w-full overflow-hidden bg-gradient-to-r from-green-50 to-orange-50 py-12 md:py-20 lg:py-28">
-      {/* Decorative Honey/Leaf elements */}
-      <div ref={honeyDripRef} className="absolute top-0 left-0 w-full h-12 flex justify-center gap-10 opacity-30 pointer-events-none z-0">
-         <div className="drip w-8 h-16 bg-gradient-to-b from-amber-400 to-amber-600 rounded-b-full"></div>
-         <div className="drip w-6 h-24 bg-gradient-to-b from-amber-400 to-amber-600 rounded-b-full hidden md:block"></div>
-         <div className="drip w-10 h-10 bg-gradient-to-b from-amber-400 to-amber-600 rounded-b-full"></div>
-         <div className="drip w-4 h-20 bg-gradient-to-b from-amber-400 to-amber-600 rounded-b-full hidden lg:block"></div>
-      </div>
+    <section className="w-full bg-gray-50">
+      <div className="w-full py-2 px-4 md:px-6 lg:pl-0 lg:pr-6">
+        <div className="flex flex-col lg:flex-row items-stretch gap-3 lg:h-[500px] xl:h-[600px]">
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 lg:gap-16">
-          
-          {/* Text Content */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex-1 text-center md:text-left"
-          >
-            <div className="inline-block bg-green-100 text-[#0A3D2A] px-3 py-1 rounded-full text-sm font-semibold mb-4 border border-green-200">
-              🌿 100% Organic & Fresh
+          {/* ── Left Category Sidebar ── */}
+          <aside className="hidden lg:flex flex-col w-72 shrink-0 bg-white rounded-none shadow-sm border border-gray-100 overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-3 bg-red-600 text-white font-bold text-sm uppercase tracking-wider">
+              <Menu className="w-4 h-4" />
+              Shop By Category
             </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
-              Fresh Groceries <br className="hidden md:block" />
-              <span className="text-[#0A3D2A]">Delivered Fast</span>
-            </h1>
-            
-            <h2 className="text-2xl md:text-3xl font-bold text-red-600 mb-6 drop-shadow-sm">
-              ঘরে বসে তাজা মুদি সামগ্রী
-            </h2>
-            
-            <p className="text-gray-600 mb-8 max-w-lg mx-auto md:mx-0 text-base md:text-lg">
-              Get the best quality rice, fresh honey, organic oil, and daily essentials delivered directly to your doorsteps.
-            </p>
-            
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-red-600/30 transition-all text-lg flex items-center gap-2 mx-auto md:mx-0"
-            >
-              Order Now <span className="font-sans">→</span>
-            </motion.button>
-          </motion.div>
+            <div className="flex flex-col divide-y divide-gray-100 flex-1 min-h-0 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {categories.map((cat) => (
+                <Link
+                  to={cat.slug}
+                  key={cat.id}
+                  onMouseEnter={() => setActiveCategory(cat.id)}
+                  onMouseLeave={() => setActiveCategory(null)}
+                  className={`flex items-center justify-between px-3 md:px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors group
+                    ${activeCategory === cat.id ? 'bg-red-50 text-red-600' : 'hover:bg-red-50 hover:text-red-600'}`}
+                >
+                  <span className="flex items-center gap-3">
+                    {cat.icon}
+                    <span className="leading-tight group-hover:translate-x-1 transition-transform">{cat.name}</span>
+                  </span>
+                  {cat.hasChildren && (
+                    <ChevronRight className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity shrink-0" />
+                  )}
+                </Link>
+              ))}
+            </div>
+          </aside>
 
-          {/* Image/Mockup Area */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="flex-1 w-full max-w-lg relative"
-          >
-            {/* Visual placeholder for Hero Image */}
-            <div className="relative aspect-square md:aspect-[4/3] rounded-2xl bg-white/40 backdrop-blur-md border border-white/60 p-4 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#0A3D2A]/10 to-transparent rounded-2xl"></div>
-              <div className="w-full h-full bg-gray-200 rounded-xl overflow-hidden relative group">
-                <img 
-                  src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800" 
-                  alt="Fresh Groceries" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur rounded-lg p-3 shadow-lg flex items-center justify-between border border-white/50">
-                  <div className="flex gap-2 items-center">
-                    <div className="w-10 h-10 rounded bg-[#0A3D2A] flex items-center justify-center text-xl">🍯</div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-800">Fresh Honey</p>
-                      <p className="text-xs text-green-600 font-semibold">Premium Quality</p>
-                    </div>
-                  </div>
-                  <div className="px-2 py-1 bg-red-100 text-red-600 text-xs font-bold rounded">In Stock</div>
+          {/* ── Right Banner Area ── */}
+          <div className="flex-1 min-w-0 flex flex-col gap-3" style={{ minHeight: '100%' }}>
+
+            {/* Top Banner Row */}
+            <div className="flex-[3] flex flex-col md:flex-row gap-3">
+              {/* Main Hero Slider */}
+              <div className="relative rounded-xl overflow-hidden aspect-[16/9] md:aspect-auto md:flex-1 shadow-sm group">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active.id}
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -40 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute inset-0"
+                  >
+                    <img
+                      src={active.img}
+                      alt={active.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Slider Controls */}
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white p-1.5 rounded-full shadow transition-all opacity-0 group-hover:opacity-100"
+                >
+                  <ChevronLeft className="w-4 h-4 text-gray-700" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white p-1.5 rounded-full shadow transition-all opacity-0 group-hover:opacity-100"
+                >
+                  <ChevronRight className="w-4 h-4 text-gray-700" />
+                </button>
+
+                {/* Dots */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                  {heroBannersTop.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setTopSlide(i)}
+                      className={`w-2 h-2 rounded-full transition-all ${i === topSlide ? 'bg-[#0A3D2A] w-4' : 'bg-gray-300'}`}
+                    />
+                  ))}
                 </div>
               </div>
-              
-              {/* Floating decorative elements */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-6 -right-6 w-20 h-20 bg-white rounded-full p-2 shadow-xl border border-gray-100 hidden md:block"
-              >
-                <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=200" alt="Rice" className="w-full h-full rounded-full object-cover" />
-              </motion.div>
-            </div>
-          </motion.div>
 
+              {/* Secondary static promo banner — pure image card */}
+              <Link to="/products" className="relative rounded-xl overflow-hidden aspect-[16/9] md:aspect-auto md:flex-1 shadow-sm block group">
+                <img
+                  src={staticPromoImg}
+                  alt="Promotional Banner"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </Link>
+            </div>
+
+            {/* Bottom Banner Row — pure image cards */}
+            <div className="flex-[2] flex flex-col sm:flex-row gap-3">
+              {heroBannersBottom.map((banner) => (
+                <motion.div
+                  key={banner.id}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className="relative rounded-xl overflow-hidden aspect-[16/9] sm:aspect-auto sm:flex-1 shadow-sm cursor-pointer group"
+                >
+                  <img
+                    src={banner.img}
+                    alt={banner.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

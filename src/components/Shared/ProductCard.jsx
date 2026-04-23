@@ -1,81 +1,144 @@
 import React, { useState } from 'react';
-import { Heart, Plus, Share2 } from 'lucide-react';
+import { Plus, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
+import useCart from '../../hooks/useCart';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 import ProductDetailsModal from './ProductDetailsModal';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 const ProductCard = ({ product, disableHoverAnimation }) => {
-  const { id, title, image, price, originalPrice,  discountPercent, unit } = product;
+  const { title, image, price, originalPrice, discountPercent, unit } = product;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (cartItem) => {
+      return axiosSecure.post('/carts', cartItem);
+    },
+    onMutate: async (newCartItem) => {
+      await queryClient.cancelQueries({ queryKey: ['cart', user?.email] });
+      const previousCart = queryClient.getQueryData(['cart', user?.email]);
+      
+      queryClient.setQueryData(['cart', user?.email], (old) => {
+        return [...(old || []), { ...newCartItem, _id: Date.now().toString() }];
+      });
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to Cart',
+        text: `${product.title} has been added to your cart.`,
+        showConfirmButton: false,
+        timer: 1500,
+        position: 'top-end',
+        toast: true,
+      });
+      
+      return { previousCart };
+    },
+    onError: (err, newCartItem, context) => {
+      queryClient.setQueryData(['cart', user?.email], context?.previousCart);
+      Swal.fire({ icon: 'error', title: 'Error', text: 'Failed to add item to cart.' });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart', user?.email] });
+    }
+  });
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    if (!user && location.pathname) {
+      Swal.fire({
+        title: 'Authentication Required',
+        text: 'Please login to add items to cart.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        confirmButtonText: 'Login'
+      }).then((result) => {
+        if (result.isConfirmed) navigate('/login', { state: { from: location } });
+      });
+      return;
+    }
+    
+    const cartItem = {
+      productId: product._id,
+      email: user.email,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+      unit: product.unit
+    };
+    
+    mutation.mutate(cartItem);
+  };
 
   return (
     <>
-      <motion.div 
-        whileHover={disableHoverAnimation ? {} : { y: -4 }}
+      <motion.div
+        whileHover={disableHoverAnimation ? {} : { y: -6 }}
         onClick={() => setIsModalOpen(true)}
-        className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col h-full cursor-pointer"
+        className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-red-50 hover:border-red-100 transition-all duration-300 overflow-hidden group flex flex-col h-full cursor-pointer relative"
       >
-        {/* Product Image Area */}
-        <div className="relative aspect-square p-4 bg-gray-50 flex items-center justify-center overflow-hidden">
-          {/* Discount Badge */}
-          {discountPercent && (
-            <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded z-10">
-              {discountPercent}% OFF
-            </div>
-          )}
-          
-          {/* Quick Actions Hover */}
-          <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 duration-300 z-10">
-            <button 
-              onClick={(e) => { e.stopPropagation(); /* Add wishlist logic */ }}
-              className="bg-white p-2 rounded-full shadow-md text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors"
-            >
-              <Heart size={18} />
-            </button>
-            <button 
-              onClick={(e) => { e.stopPropagation(); /* Add share logic */ }}
-              className="bg-white p-2 rounded-full shadow-md text-gray-500 hover:text-green-600 hover:bg-green-50 transition-colors"
-            >
-              <Share2 size={18} />
-            </button>
+        {/* Modern Discount Badge */}
+        {discountPercent && (
+          <div className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
+            {discountPercent}% OFF
           </div>
+        )}
 
-          {/* Image */}
-          <img 
-            src={image} 
-            alt={title} 
-            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 mix-blend-multiply"
+        {/* Image Area - Fixed shorter height */}
+        <div className="relative bg-[#f8f9fa] flex items-center justify-center p-4 h-36 sm:h-40 overflow-hidden">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out"
           />
         </div>
 
-        {/* Product Details */}
-        <div className="p-4 flex flex-col flex-grow">
-          <h4 className="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-700 transition-colors">
+        {/* Content Area */}
+        <div className="px-3 py-3 flex flex-col flex-1 gap-1.5">
+          {/* Title - Clean & Concise */}
+          <h4 className="font-semibold text-gray-800 text-[13px] sm:text-sm leading-snug line-clamp-2 min-h-[2.5rem] group-hover:text-red-600 transition-colors">
             {title}
           </h4>
-          
-          {/* Units / Variants mockup */}
-          <div className="flex gap-2 mb-3 mt-auto pt-2">
-            <span className="text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-2 py-1 rounded">
-              {unit || '1 Pack'}
-            </span>
+
+          {/* Unit Tag */}
+          <div className="text-[11px] text-gray-400 font-medium tracking-wide uppercase">
+            {unit || 'Standard Unit'}
           </div>
 
-          {/* Pricing & Add to Cart */}
-          <div className="flex items-end justify-between mt-auto">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-red-600">৳{price}</span>
-              </div>
+          <div className="mt-auto flex items-end justify-between pt-3 border-t border-gray-50">
+            {/* Price Block */}
+            <div className="flex flex-col">
               {originalPrice > price && (
-                <span className="text-sm text-gray-400 line-through">৳{originalPrice}</span>
+                <span className="text-[11px] text-gray-300 line-through mb-0.5 font-medium">৳{originalPrice}</span>
               )}
+              <span className="text-base sm:text-lg font-black text-gray-900 leading-none">৳{price}</span>
             </div>
-            
-            <button 
-              onClick={(e) => { e.stopPropagation(); /* Add to cart logic here */ }}
-              className="w-10 h-10 rounded-full bg-[#0A3D2A] text-white flex items-center justify-center hover:bg-green-700 transition-colors shadow-md active:scale-95"
+
+            {/* Premium Pill-shaped Add Button */}
+            <button
+              onClick={handleAddToCart}
+              disabled={mutation.isPending || product.inStock === false}
+              className="group/btn h-9 px-3 rounded-full bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center gap-1.5 transition-all duration-300 disabled:opacity-50 shadow-sm"
             >
-              <Plus size={20} />
+              {mutation.isPending ? (
+                <span className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" />
+              ) : (
+                <>
+                  <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline">Add</span>
+                  <Plus size={16} strokeWidth={3} />
+                </>
+              )}
             </button>
           </div>
         </div>

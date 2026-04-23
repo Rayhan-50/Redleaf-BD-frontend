@@ -74,7 +74,7 @@ const SocialLogin = () => {
 
     return (
         <div className="flex flex-col items-center w-full">
-            <div className="divider text-gray-400 my-6">OR</div>
+            <div className="divider text-yellow-400 font-black my-5 before:bg-white/20 after:bg-white/20">OR</div>
             <button
                 onClick={handleGoogleSignIn}
                 className="w-full flex items-center justify-center px-6 py-2.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 transition-colors duration-200 text-gray-600 font-medium shadow-sm hover:shadow-md group"

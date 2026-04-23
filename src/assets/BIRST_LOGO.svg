@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
-  <rect width="200" height="60" fill="transparent"/>
-  <circle cx="30" cy="30" r="20" fill="#DC2626"/>
-  <text x="30" y="38" font-family="Arial" font-size="24" font-weight="bold" fill="white" text-anchor="middle">R</text>
-  <text x="60" y="38" font-family="Arial" font-size="24" font-weight="bold" fill="#0A3D2A">Redleaf-BD</text>
-</svg>

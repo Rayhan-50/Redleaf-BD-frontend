@@ -1,180 +1,190 @@
 import React, { useState } from 'react';
-import { MessageSquare, Eye, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { MessageSquare, Eye, ChevronRight, Image as ImageIcon, Search, Calendar, Clock, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from '../hooks/useAxiosPublic';
+import Loading from '../components/Loading/Loading';
 
 const Blog = () => {
   const [activeTab, setActiveTab] = useState('সব পোস্ট');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const categories = [
     'সব পোস্ট', 'Vlog', 'কোরবানি', 'খাদ্যের গুণাগুণ', 'নিউট্রিশন', 'মৌসুমি ফল', 'রমজান', 'রূপচর্চা', 'রেসিপি', 'রোগ প্রতিরোধ', 'শীতকালীন সুস্থতা', 'হেলথ টিপস'
   ];
 
-  const blogPosts = [
-    {
-      id: 1,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'সর্বরোগের মহৌষধ কালোজিরা তেল!',
-      image: null,
-      excerpt: 'November 10, 2020 কালো জিরার আমাদের সবারই পরিচিত। খাবারে একটু ভিন্ন স্বাদ আনতে কালো জিরার তুলনা নেই। কিন্তু কালো জিরার ব্যবহার শুধু খাবারের স্বাদ বৃদ্ধির জন্যই স...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 2,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'খাঁটি এবং প্রাকৃতিক মধু চেনা নিয়ে মধুর বিড়ম্বনা (পর্ব: ২)',
-      image: null,
-      excerpt: 'আমরা গত পর্বে বেশ কিছু পরীক্ষার কথা বলেছি যেগুলোর মাধ্যমে আসল মধু ও খাঁটি মধু নির্ণয় করতে গিয়ে ক্রেতা ভাইয়েরা চরমভাবে ধোকার শিকার হচ্ছি যা আমরা আগে জেন...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 3,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'খাঁটি এবং প্রাকৃতিক মধু চেনা নিয়ে মধুর বিড়ম্বনা (পর্ব: ১)',
-      image: null,
-      excerpt: 'আসছে শীতকাল। এই শীতে আপনার খাদ্য তালিকায় যোগ হবে খাঁটি ও প্রাকৃতিক মধু। কিন্তু, ভালো মানের খাঁটি মধু পাবেন কোথায় ? খাঁটি মধু বুঝবেন কীভাবে খাঁটি মধু চেনা...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 4,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'কীভাবে বুঝবেন, দুধে পানি মিশ্রিত আছে?',
-      image: null,
-      excerpt: 'খাঁটি দুধ চেনার উপায় জানতে চান? তাহলে আপনার জন্যই খাসফুডের আজকের এই আয়োজন। ভেজালমুক্ত দুধ কীভাবে চিনবেন? বয়স্কদের শরীরের জন্য আমাদের...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 5,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'কিটো ডায়েট: কী, কেন, কীভাবে?',
-      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80',
-      excerpt: 'অল্পদিনেই স্বাস্থ্যের আমূল পরিবর্তন করে দেখিয়ে দেওয়ায়, বর্তমানে বেশ পরিচিত এক নাম কিটো ডায়েট। নানারকম ডায়েটের মধ্য থেকে অনেকেই এখন এ ডায়েটকে বেছে নিচ্ছেন। কিটো...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 6,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'আপনার কেনা আম কি কেমিক্যাল মুক্ত?',
-      image: null,
-      excerpt: 'ফরমালিনমুক্ত আম যদি জিজ্ঞাসা করা হয় যে অফ মৌসুম ছাড়া আম কি কখনও খেয়েছেন? অনেকেই বলবেন খেয়েছি। দেখতে কেমন? খেতে কি মজার? বলবেন, একদমই না। তবে...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 7,
-      date: '24 MAR',
-      category: 'হেলথ টিপস',
-      title: 'অতিরিক্ত খেয়ে ফেলে অস্বস্তিতে ভুগছেন? জেনে নিন সমাধান!',
-      image: null,
-      excerpt: 'খেতে আমরা সবাই কম বেশি ভালোবাসি। কিন্তু অনেক সময় দেখা যায় আমরা প্রয়োজনের অতিরিক্ত খেয়ে ফেলি। যার ফলে দেখা দেয় নানা ধরণের সমস্যা। যে কোন উৎসব...',
-      comments: 0,
-      views: 0
-    },
-    {
-      id: 8,
-      date: '24 MAR',
-      category: 'শীতের আয়োজন',
-      title: 'সরিষার তেলের উপকারিতা জেনে নিন।',
-      image: null,
-      excerpt: 'সরিষা বীজ থেকে তৈরি হয় সরিষার তেল এটা আমাদের সবারই জানা। কিন্তু সরিষার তেলের উপকারিতা জানে কজন? এটি গাঢ় হলুদ বর্ণের হয় এবং স্বাদের মত সামান্য ঝাঁঝালো...',
-      comments: 0,
-      views: 0
+  const axiosPublic = useAxiosPublic();
+  const { data: blogPosts = [], isLoading } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: async () => {
+      const res = await axiosPublic.get('/blogs');
+      return res.data;
     }
-  ];
+  });
+
+  const filteredPosts = blogPosts.filter(post => 
+    (activeTab === 'সব পোস্ট' || post.category === activeTab) &&
+    (post.title?.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  if (isLoading) return <Loading />;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-gray-50 flex flex-col font-['Poppins']">
       
-      {/* Top Background Mock */}
-      <div className="w-full h-32 md:h-48 overflow-hidden bg-[#0A3D2A] relative">
-         <img 
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80" 
-            alt="Grocery Banner" 
-            className="w-full h-full object-cover opacity-30"
-         />
-         <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-black text-white tracking-widest uppercase">Redleaf Blog</h1>
-         </div>
-      </div>
+      {/* ── Section 1: Hero Header (Restore Red Style) ── */}
+      <section className="w-full bg-gradient-to-r from-red-700 via-red-600 to-red-800 relative overflow-hidden shadow-lg">
+        {/* Design Texture */}
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-[0.1]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
+            backgroundSize: '24px 24px'
+          }}
+        />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+        
+        <div className="container mx-auto px-4 py-16 md:py-24 relative z-10 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="inline-block bg-white/20 border border-white/30 text-white text-xs font-black uppercase tracking-[0.3em] px-6 py-2 rounded-full mb-6 backdrop-blur-md">
+                Redleaf Insights
+              </span>
+              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">
+                Explore Our <span className="text-yellow-400">Stories</span>
+              </h1>
+              <p className="text-red-50 text-lg md:text-xl max-w-2xl mx-auto font-medium opacity-90 leading-relaxed">
+                স্বাদ ও স্বাস্থ্যের মেলবন্ধনে আমাদের ব্লগ। জানুন খাঁটি খাবার, 
+                নিউট্রিশন এবং সুস্থ জীবন যাপনের দারুণ সব টিপস।
+              </p>
+            </motion.div>
+        </div>
+      </section>
 
-      <div className="container mx-auto px-4 max-w-7xl py-8">
+      <div className="container mx-auto px-4 max-w-7xl -mt-10 md:-mt-14 relative z-20 pb-20">
          
-         {/* Categories Navigation */}
-         <div className="flex flex-wrap gap-4 items-center justify-center md:justify-start mb-10 pb-4 border-b border-gray-200">
-            {categories.map(category => (
-               <button 
-                  key={category}
-                  onClick={() => setActiveTab(category)}
-                  className={`text-sm font-bold pb-1 transition-colors ${
-                     activeTab === category 
-                     ? 'text-[#5E9B3B] border-b-2 border-[#5E9B3B]' 
-                     : 'text-gray-600 hover:text-[#5E9B3B]'
-                  }`}
-               >
-                  {category}
-               </button>
-            ))}
+         {/* ── Search & Filter Bar (Restore 8px Radius) ── */}
+         <div className="bg-white rounded-[8px] shadow-2xl shadow-red-500/10 p-6 mb-12 border border-gray-100">
+            <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
+              
+              {/* Categories Scrollable */}
+              <div className="w-full lg:flex-1 overflow-x-auto no-scrollbar pb-2">
+                <div className="flex items-center gap-3">
+                  {categories.map(category => (
+                    <button 
+                       key={category}
+                       onClick={() => setActiveTab(category)}
+                       className={`px-6 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap
+                        ${activeTab === category 
+                          ? 'bg-red-600 text-white shadow-lg shadow-red-200 scale-105' 
+                          : 'bg-gray-50 text-gray-500 hover:bg-red-50 hover:text-red-600'
+                        }`}
+                    >
+                       {category}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Local Search */}
+              <div className="relative w-full lg:w-72">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-600" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="ব্লগ খুঁজুন..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-full text-sm font-bold focus:ring-2 focus:ring-red-600/20 transition-all font-['Hind_Siliguri']"
+                />
+              </div>
+            </div>
          </div>
 
-         {/* Blog Grid */}
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {blogPosts.map(post => (
-               <article key={post.id} className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative flex flex-col group overflow-hidden">
-                  
-                  {/* Date Badge */}
-                  <div className="absolute top-4 left-4 z-10 bg-white shadow-md border border-[#5E9B3B] text-center w-12 py-1 rounded">
-                     <span className="block text-xl font-black text-gray-900 leading-none">{post.date.split(' ')[0]}</span>
-                     <span className="block text-[10px] font-bold text-[#5E9B3B]">{post.date.split(' ')[1]}</span>
-                  </div>
+         {/* ── Blog Grid ── */}
+         <AnimatePresence mode='wait'>
+            <motion.div 
+               key={activeTab + searchTerm}
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -20 }}
+               transition={{ duration: 0.4 }}
+               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+            >
+               {filteredPosts.length > 0 ? filteredPosts.map((post, index) => (
+                  <article key={post._id || index} className="bg-white rounded-[8px] shadow-xl shadow-gray-200/50 border border-gray-100 hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 flex flex-col group overflow-hidden">
+                     
+                     {/* Image & Badges */}
+                     <div className="relative h-64 overflow-hidden">
+                        <div className="absolute top-6 left-6 z-20 bg-white/95 backdrop-blur-md shadow-xl text-center w-14 py-2 rounded-lg border border-red-50">
+                           <span className="block text-2xl font-black text-gray-900 leading-none mb-1">{post.date}</span>
+                           <span className="block text-[10px] font-black text-red-600 uppercase tracking-widest">{post.month}</span>
+                        </div>
+                        
+                        <div className="absolute top-6 right-6 z-20">
+                          <span className="bg-red-600 text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-lg shadow-red-600/30">
+                            {post.category}
+                          </span>
+                        </div>
 
-                  {/* Image Container */}
-                  <div className="w-full h-48 bg-gray-50 border-b border-gray-100 flex items-center justify-center overflow-hidden">
-                     {post.image ? (
-                        <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                     ) : (
-                        <ImageIcon className="w-16 h-16 text-gray-200" strokeWidth={1} />
-                     )}
-                  </div>
+                        {post.image ? (
+                           <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        ) : (
+                           <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                              <ImageIcon className="w-16 h-16 text-gray-200" strokeWidth={1} />
+                           </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                     </div>
 
-                  {/* Content */}
-                  <div className="p-5 flex flex-col flex-1">
-                     
-                     <div className="mb-3">
-                        <span className="bg-[#5E9B3B] text-white text-[10px] font-bold px-2 py-0.5 rounded-full inline-block">
-                           {post.category}
-                        </span>
+                     {/* Content Body */}
+                     <div className="p-8 flex flex-col flex-1">
+                        {/* Meta Info */}
+                        <div className="flex items-center gap-6 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-50 pb-4">
+                           <span className="flex items-center gap-1.5"><User size={12} className="text-red-500" /> {post.author}</span>
+                           <span className="flex items-center gap-1.5"><Clock size={12} className="text-red-500" /> {post.readTime}</span>
+                        </div>
+                        
+                        <h2 className="font-extrabold text-gray-900 text-2xl leading-[1.3] mb-4 group-hover:text-red-600 transition-colors font-['Hind_Siliguri']">
+                           {post.title}
+                        </h2>
+                        
+                        <p className="text-gray-500 text-sm leading-relaxed mb-8 flex-1 font-['Hind_Siliguri'] opacity-80">
+                           {post.excerpt}
+                        </p>
+                        
+                        {/* Interactive Footer */}
+                        <div className="flex items-center justify-between mt-auto">
+                           <Link to="#" className="group/btn relative overflow-hidden bg-gray-50 text-red-600 px-6 py-3 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all hover:bg-red-600 hover:text-white flex items-center gap-2">
+                              Explore More
+                              <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                           </Link>
+
+                           <div className="flex items-center gap-4 text-gray-400">
+                             <span className="flex items-center gap-1.5 hover:text-red-600 transition-colors cursor-pointer text-[11px] font-bold">
+                               <MessageSquare size={14} /> {post.comments || 0}
+                             </span>
+                             <span className="flex items-center gap-1.5 hover:text-red-600 transition-colors cursor-pointer text-[11px] font-bold">
+                               <Eye size={14} /> {post.views || 0}
+                             </span>
+                           </div>
+                        </div>
                      </div>
-                     
-                     <h2 className="font-bold text-gray-900 text-base leading-snug mb-2 group-hover:text-[#5E9B3B] transition-colors cursor-pointer">
-                        {post.title}
-                     </h2>
-                     
-                     <div className="flex items-center gap-4 text-gray-400 text-xs mb-3">
-                        <span className="flex items-center gap-1 hover:text-gray-600 cursor-pointer"><MessageSquare className="w-3.5 h-3.5" /> {post.comments}</span>
-                        <span className="flex items-center gap-1 hover:text-gray-600 cursor-pointer"><Eye className="w-3.5 h-3.5" /> {post.views}</span>
-                     </div>
-                     
-                     <p className="text-gray-500 text-xs leading-relaxed mb-4 flex-1">
-                        {post.excerpt}
-                     </p>
-                     
-                     <Link to="#" className="text-[#5E9B3B] text-xs font-bold flex items-center gap-1 group-hover:text-green-700 mt-auto">
-                        CONTINUE READING <ChevronRight className="w-3.5 h-3.5" />
-                     </Link>
+                  </article>
+               )) : (
+                <div className="col-span-full py-20 text-center">
+                  <div className="w-20 h-20 bg-red-50 text-red-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <ImageIcon size={40} />
                   </div>
-               </article>
-            ))}
-         </div>
+                  <h3 className="text-2xl font-black text-gray-900 mb-2">কোন পোস্ট পাওয়া যায়নি</h3>
+                  <p className="text-gray-500 font-bold uppercase text-xs tracking-widest">Try choosing another category</p>
+                </div>
+               )}
+            </motion.div>
+         </AnimatePresence>
 
       </div>
     </div>

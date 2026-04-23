@@ -57,17 +57,17 @@ const ManageUsers = () => {
 
   const handleMakeAdmin = (user) => {
     Swal.fire({
-      title: "Make Admin?",
-      text: `Are you sure you want to make ${user.name} an admin?`,
-      icon: "question",
+      title: "Promote to Admin?",
+      text: `Are you sure you want to grant ${user.name} admin privileges?`,
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#0A3D91",
-      cancelButtonColor: "#B91C1C",
-      confirmButtonText: "Yes, make admin",
-      background: "#FBF8F3",
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, promote",
+      background: "#fff",
       customClass: {
-        title: "text-[#0A3D91] text-xl",
-        content: "text-[#6B7280]",
+        title: "font-['Poppins'] font-bold text-gray-900",
+        popup: "rounded-[32px] p-8 shadow-2xl shadow-red-100",
       }
     }).then((result) => {
       if (result.isConfirmed) {
@@ -80,27 +80,16 @@ const ManageUsers = () => {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: `${user.name} is now an admin`,
+                title: `${user.name} is now an Admin`,
                 showConfirmButton: false,
                 timer: 1500,
-                background: "#FBF8F3",
-                customClass: {
-                  title: "text-[#0A3D91] text-xl",
-                }
+                background: "#fff",
+                customClass: { title: "font-['Poppins'] font-bold text-red-600", popup: "rounded-3xl" }
               });
             }
           })
           .catch((error) => {
-            Swal.fire({
-              icon: "error",
-              title: "Failed to make admin",
-              text: error.message,
-              background: "#FBF8F3",
-              customClass: {
-                title: "text-[#0A3D91] text-xl",
-                content: "text-[#6B7280]",
-              }
-            });
+            Swal.fire({ icon: "error", title: "Access Update Failed", text: error.message });
           });
       }
     });
@@ -108,17 +97,17 @@ const ManageUsers = () => {
 
   const handleDeleteUser = (user) => {
     Swal.fire({
-      title: "Delete User?",
-      text: `Are you sure you want to delete ${user.name}? This action cannot be undone.`,
-      icon: "warning",
+      title: "Exterminate Account?",
+      text: `Are you sure you want to permanently delete ${user.name}?`,
+      icon: "error",
       showCancelButton: true,
-      confirmButtonColor: "#0A3D91",
-      cancelButtonColor: "#B91C1C",
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete",
-      background: "#FBF8F3",
+      background: "#fff",
       customClass: {
-        title: "text-[#0A3D91] text-xl",
-        content: "text-[#6B7280]",
+        title: "font-['Poppins'] font-bold text-gray-900",
+        popup: "rounded-[32px] p-8 shadow-2xl",
       }
     }).then((result) => {
       if (result.isConfirmed) {
@@ -131,26 +120,14 @@ const ManageUsers = () => {
               Swal.fire({
                 icon: "success",
                 title: "User Deleted",
-                text: `${user.name} has been deleted successfully.`,
-                background: "#FBF8F3",
-                customClass: {
-                  title: "text-[#0A3D91] text-xl",
-                  content: "text-[#6B7280]",
-                }
+                text: `${user.name} removed from database.`,
+                background: "#fff",
+                customClass: { title: "font-['Poppins'] font-bold text-gray-900", popup: "rounded-3xl" }
               });
             }
           })
           .catch((error) => {
-            Swal.fire({
-              icon: "error",
-              title: "Failed to delete",
-              text: error.message,
-              background: "#FBF8F3",
-              customClass: {
-                title: "text-[#0A3D91] text-xl",
-                content: "text-[#6B7280]",
-              }
-            });
+            Swal.fire({ icon: "error", title: "Deletion Failed", text: error.message });
           });
       }
     });
@@ -172,25 +149,21 @@ const ManageUsers = () => {
   };
 
   const getSortIcon = (field) => {
-    if (sortField !== field) return <ArrowUpDown className="ml-1 h-4 w-4" />;
-    return sortOrder === "asc" ? <ArrowUp className="ml-1 h-4 w-4" /> : <ArrowDown className="ml-1 h-4 w-4" />;
+    if (sortField !== field) return <ArrowUpDown className="ml-1 h-3 w-3" />;
+    return sortOrder === "asc" ? <ArrowUp className="ml-1 h-3 w-3" /> : <ArrowDown className="ml-1 h-3 w-3" />;
   };
 
   const SkeletonRow = () => (
-    <div className="bg-[#FBF8F3] rounded-2xl shadow-lg p-6 animate-pulse border border-[#E5E0D5]">
+    <div className="bg-white rounded-[32px] shadow-sm p-6 animate-pulse border border-gray-100">
       <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
-        <div className="w-12 h-12 bg-[#0A3D91]/10 rounded-xl"></div>
+        <div className="w-12 h-12 bg-gray-100 rounded-2xl"></div>
         <div className="flex-1 space-y-3">
-          <div className="h-5 bg-[#0A3D91]/10 rounded-lg w-1/4"></div>
-          <div className="h-4 bg-[#0A3D91]/10 rounded-lg w-1/2"></div>
-          <div className="flex gap-2">
-            <div className="h-6 bg-[#0A3D91]/10 rounded-lg w-16"></div>
-            <div className="h-6 bg-[#0A3D91]/10 rounded-lg w-20"></div>
-          </div>
+          <div className="h-5 bg-gray-100 rounded-lg w-1/4"></div>
+          <div className="h-4 bg-gray-100 rounded-lg w-1/2"></div>
         </div>
-        <div className="flex flex-wrap gap-3 w-full lg:w-auto">
-          <div className="h-10 bg-[#0A3D91]/10 rounded-xl w-full sm:w-28"></div>
-          <div className="h-10 bg-[#0A3D91]/10 rounded-xl w-full sm:w-24"></div>
+        <div className="flex gap-3 w-full lg:w-auto">
+          <div className="h-12 bg-gray-100 rounded-2xl w-full lg:w-32"></div>
+          <div className="h-12 bg-gray-100 rounded-2xl w-full lg:w-24"></div>
         </div>
       </div>
     </div>
@@ -198,168 +171,149 @@ const ManageUsers = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-full p-8">
-        <div className="text-center p-8 bg-[#FBF8F3] rounded-2xl shadow-lg border border-[#E5E0D5]">
-          <div className="w-16 h-16 bg-[#B91C1C]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Users className="h-8 w-8 text-[#B91C1C]" />
+      <div className="flex items-center justify-center p-10">
+        <div className="text-center p-10 bg-white rounded-[32px] shadow-xl border border-red-50">
+          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Users className="h-10 w-10 text-red-600" />
           </div>
-          <p className="text-[#0A3D91] text-lg font-semibold mb-2">Error Loading Users</p>
-          <p className="text-[#6B7280]">{error.message}</p>
+          <h2 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">System Error</h2>
+          <p className="text-gray-400 font-medium">{error.message}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FDF6E9] p-3 sm:p-4 lg:p-6 xl:p-8">
+    <div className="p-6 lg:p-10 space-y-10 font-['Poppins',sans-serif]">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="bg-[#FBF8F3] rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 border border-[#E5E0D5] shadow-lg">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sm:gap-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#0A3D91] to-[#08306B] rounded-2xl flex items-center justify-center">
-                <Users className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-[#0A3D91] mb-1 sm:mb-2">Manage Users</h2>
-                <p className="text-[#6B7280] text-sm sm:text-base lg:text-lg">Administrate user accounts and permissions</p>
-              </div>
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8 mb-4">
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:flex w-20 h-20 bg-red-600 rounded-[32px] items-center justify-center shadow-2xl shadow-red-200">
+              <Users className="h-10 w-10 text-white" />
             </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full lg:w-auto">
-              <div className="bg-[#0A3D91]/10 px-3 sm:px-4 py-2 rounded-xl border border-[#0A3D91]/20">
-                <span className="text-[#0A3D91] font-semibold text-sm sm:text-base lg:text-lg">Total: {users.length}</span>
-              </div>
-              <select
-                value={filterRole}
-                onChange={(e) => setFilterRole(e.target.value)}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-[#E5E0D5] text-[#0A3D91] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0A3D91] focus:border-[#0A3D91] bg-white shadow-sm"
-              >
-                <option value="all">All Roles</option>
-                <option value="admin">Admin</option>
-
-                <option value="user">User</option>
-              </select>
+            <div>
+              <h2 className="text-4xl font-black text-gray-900 tracking-tighter mb-2">User Directory</h2>
+              <p className="text-gray-400 font-bold text-sm tracking-wide uppercase">Managing permissions & account status</p>
             </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
+            <div className="px-5 py-2.5 bg-red-50 rounded-2xl border border-red-100">
+              <span className="text-red-600 font-black text-sm tracking-widest">{users.length} TOTAL USERS</span>
+            </div>
+            <select
+              value={filterRole}
+              onChange={(e) => setFilterRole(e.target.value)}
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl border border-gray-100 text-gray-600 text-xs font-black uppercase tracking-wider focus:outline-none focus:ring-4 focus:ring-red-50 focus:border-red-600 bg-white shadow-sm transition-all"
+            >
+              <option value="all">All Roles</option>
+              <option value="admin">Administrators</option>
+              <option value="user">Registered Users</option>
+            </select>
           </div>
         </div>
 
-        {/* Search Section */}
-        <div className="mb-6 sm:mb-8">
-          <div className="bg-[#FBF8F3] rounded-2xl p-4 sm:p-6 border border-[#E5E0D5] shadow-sm">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search by name or email..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-14 rounded-xl border border-[#E5E0D5] text-[#0A3D91] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0A3D91] focus:border-[#0A3D91] bg-white shadow-sm"
-              />
-              <Search className="absolute left-3 sm:left-5 top-1/2 transform -translate-y-1/2 text-[#D0A96A] h-4 w-4 sm:h-5 sm:w-5" />
-            </div>
-          </div>
+        {/* Search Bar */}
+        <div className="relative group">
+          <input
+            type="text"
+            placeholder="Search users by name or email hash..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-16 pr-8 py-6 rounded-[32px] border border-gray-100 text-gray-700 text-base font-bold focus:outline-none focus:ring-4 focus:ring-red-50 focus:border-red-600 bg-white shadow-sm group-hover:shadow-md transition-all placeholder:text-gray-300"
+          />
+          <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-300 group-focus-within:text-red-600 h-6 w-6 transition-colors" />
         </div>
 
         {/* Users List */}
-        <motion.div
-          className="space-y-4 sm:space-y-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="mt-10 space-y-6">
           {isLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonRow key={index} />)
           ) : paginatedUsers.length === 0 ? (
-            <div className="bg-[#FBF8F3] rounded-2xl p-8 sm:p-12 text-center border border-[#E5E0D5] shadow-sm">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#0A3D91]/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <Users className="h-8 w-8 sm:h-10 sm:w-10 text-[#0A3D91]" />
+            <div className="bg-white rounded-[40px] p-20 text-center border border-dashed border-gray-200 shadow-inner">
+              <div className="w-24 h-24 bg-gray-50 rounded-[32px] flex items-center justify-center mx-auto mb-6">
+                <Users className="h-12 w-12 text-gray-200" />
               </div>
-              <p className="text-[#0A3D91] text-lg sm:text-xl font-semibold mb-2">No users found</p>
-              <p className="text-[#6B7280] text-sm sm:text-base">Try adjusting your search criteria or filters</p>
+              <p className="text-xl font-black text-gray-900 tracking-tight">No Matches Found</p>
+              <p className="text-gray-400 font-bold text-sm mt-1">Try a different search term or filter</p>
             </div>
           ) : (
-            <AnimatePresence>
+            <AnimatePresence mode='popLayout'>
               {paginatedUsers.map((user, index) => (
                 <motion.div
                   key={user._id}
-                  className="bg-[#FBF8F3] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-4 sm:p-6 border border-[#E5E0D5] hover:border-[#D0A96A]/30"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="bg-white rounded-[40px] shadow-sm hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 p-6 sm:p-8 border border-gray-50 flex flex-col lg:flex-row items-center gap-8 group"
                 >
-                  <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 sm:gap-6">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#0A3D91] to-[#08306B] rounded-xl flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-bold text-sm sm:text-lg">{index + 1 + (currentPage - 1) * usersPerPage}</span>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 sm:gap-3 mb-2">
-                        <h3 className="text-lg sm:text-xl font-bold text-[#0A3D91] truncate">{user.name}</h3>
-                        {user.role === 'admin' && <Crown className="h-4 w-4 sm:h-5 sm:w-5 text-[#D0A96A]" />}
-                      </div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <Mail className="h-4 w-4 text-[#6B7280]" />
-                        <p className="text-[#6B7280] truncate">{user.email}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className={`px-3 py-1 rounded-lg text-sm font-semibold ${
-                          user.role === 'admin' ? 'bg-[#0A3D91] text-white' :
-                          user.role === 'teacher' ? 'bg-[#D0A96A] text-white' :
-                          'bg-[#0A3D91]/10 text-[#0A3D91] border border-[#0A3D91]/20'
-                        }`}>
-                          {user.role === 'admin' ? <><Shield className="inline h-4 w-4 mr-1" />Admin</> :
-                           user.role === 'teacher' ? <><UserCheck className="inline h-4 w-4 mr-1" />Teacher</> :
-                           <><User className="inline h-4 w-4 mr-1" />User</>}
-                        </span>
-                        <span className="px-3 py-1 rounded-lg text-sm font-medium bg-[#D0A96A]/10 text-[#D0A96A] border border-[#D0A96A]/20">
-                          {user.status || "Active"}
-                        </span>
+                  <div className="w-16 h-16 bg-red-600 rounded-[24px] flex items-center justify-center shadow-lg shadow-red-200 shrink-0 group-hover:rotate-6 transition-transform">
+                    <span className="text-white font-black text-lg tracking-widest">{index + 1 + (currentPage - 1) * usersPerPage}</span>
+                  </div>
+                  
+                  <div className="flex-1 min-w-0 text-center lg:text-left">
+                    <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 mb-2">
+                      <h3 className="text-xl sm:text-2xl font-black text-gray-900 truncate tracking-tight uppercase">{user.name}</h3>
+                      <div className="flex items-center justify-center lg:justify-start gap-2">
+                        {user.role === 'admin' ? (
+                          <span className="px-3 py-1 bg-red-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
+                            <Crown size={10} /> MASTER
+                          </span>
+                        ) : (
+                          <span className="px-3 py-1 bg-gray-100 text-gray-400 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 border border-gray-200">
+                             CLIENT
+                          </span>
+                        )}
                       </div>
                     </div>
+                    <div className="flex items-center justify-center lg:justify-start gap-2 text-gray-400 font-bold text-xs tracking-wide">
+                      <Mail size={12} className="text-gray-300" />
+                      {user.email}
+                    </div>
+                  </div>
 
-                    <div className="flex flex-wrap gap-3 w-full lg:w-auto">
-                      {user.role !== "admin" && (
-                        <button
-                          onClick={() => handleMakeAdmin(user)}
-                          className="flex items-center px-4 py-3 bg-gradient-to-r from-[#0A3D91] to-[#08306B] text-white rounded-xl hover:from-[#08306B] hover:to-[#0A3D91] transition-all duration-300 text-sm font-semibold w-full sm:w-auto justify-center sm:justify-start shadow-md hover:shadow-lg"
-                        >
-                          <Shield className="mr-2 h-4 w-4" /> Make Admin
-                        </button>
-                      )}
+                  <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto mt-4 lg:mt-0">
+                    {user.role !== "admin" && (
                       <button
-                        onClick={() => handleDeleteUser(user)}
-                        className="flex items-center px-4 py-3 bg-gradient-to-r from-[#B91C1C] to-[#991B1B] text-white rounded-xl hover:from-[#991B1B] hover:to-[#B91C1C] transition-all duration-300 text-sm font-semibold w-full sm:w-auto justify-center sm:justify-start shadow-md hover:shadow-lg"
+                        onClick={() => handleMakeAdmin(user)}
+                        className="w-full sm:w-auto flex items-center justify-center px-6 py-4 bg-yellow-400 hover:bg-yellow-500 text-red-900 rounded-2xl transition-all text-xs font-black uppercase tracking-widest shadow-md hover:shadow-yellow-100 active:scale-95"
                       >
-                        <Trash2 className="mr-2 h-4 w-4" /> Delete
+                        <Shield className="mr-2 h-4 w-4" /> PROMOTE
                       </button>
-                    </div>
+                    )}
+                    <button
+                      onClick={() => handleDeleteUser(user)}
+                      className="w-full sm:w-auto flex items-center justify-center px-6 py-4 bg-white hover:bg-red-600 text-gray-400 hover:text-white rounded-2xl transition-all text-xs font-black uppercase tracking-widest border border-gray-100 hover:border-red-600 shadow-sm active:scale-95"
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" /> DELETE
+                    </button>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           )}
-        </motion.div>
+        </div>
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center mt-8">
-            <div className="bg-[#FBF8F3] rounded-2xl p-4 border border-[#E5E0D5] shadow-sm">
-            <nav className="inline-flex rounded-xl shadow-sm -space-x-px">
+          <div className="flex justify-center mt-14">
+            <div className="bg-white rounded-[32px] p-2 border border-gray-100 shadow-sm flex items-center gap-1">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                  className="relative inline-flex items-center px-4 py-3 rounded-l-xl border border-[#E5E0D5] bg-white text-sm font-semibold text-[#0A3D91] hover:bg-[#0A3D91]/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-6 py-4 rounded-[24px] text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-red-50 hover:text-red-700 disabled:opacity-20 transition-all"
               >
-                Previous
+                Prev
               </button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                    className={`relative inline-flex items-center px-4 py-3 border border-[#E5E0D5] text-sm font-semibold transition-colors ${
+                  className={`w-12 h-12 rounded-[24px] text-xs font-black transition-all ${
                     currentPage === page
-                        ? "bg-[#0A3D91] text-white border-[#0A3D91]"
-                        : "bg-white text-[#0A3D91] hover:bg-[#0A3D91]/5"
+                        ? "bg-red-600 text-white shadow-lg shadow-red-200"
+                        : "text-gray-400 hover:bg-gray-100 hover:text-gray-900"
                   }`}
                 >
                   {page}
@@ -368,11 +322,10 @@ const ManageUsers = () => {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                  className="relative inline-flex items-center px-4 py-3 rounded-r-xl border border-[#E5E0D5] bg-white text-sm font-semibold text-[#0A3D91] hover:bg-[#0A3D91]/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-6 py-4 rounded-[24px] text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-red-50 hover:text-red-700 disabled:opacity-20 transition-all"
               >
                 Next
               </button>
-            </nav>
             </div>
           </div>
         )}

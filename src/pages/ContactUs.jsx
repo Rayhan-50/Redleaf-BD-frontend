@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Mail, Phone, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { MapPin, Mail, Phone, Send, CheckCircle, AlertCircle, Leaf, Truck, ShieldCheck, Headphones } from 'lucide-react';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 
 const ContactUs = () => {
@@ -40,21 +40,25 @@ const ContactUs = () => {
   const inputCls = (field) =>
     `w-full px-4 py-3 rounded-xl border text-sm text-gray-800 focus:outline-none focus:ring-2 transition ${
       errors[field]
-        ? 'border-red-400 focus:ring-red-300 bg-red-50'
-        : 'border-gray-200 focus:ring-[#0A3D2A]/30 focus:border-[#0A3D2A] bg-white'
+        ? 'border-red-400 focus:ring-red-200 bg-red-50'
+        : 'border-gray-200 focus:ring-red-100 focus:border-red-500 bg-white'
     }`;
 
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#0A3D2A] to-[#116638] py-16 px-4 text-white text-center">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-          <span className="inline-block bg-white/10 border border-white/20 text-green-200 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
-            📬 Get in Touch
+      <section className="bg-gradient-to-br from-red-700 via-red-600 to-red-800 py-20 px-4 text-white text-center relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/5 rounded-full translate-x-1/3 translate-y-1/3 pointer-events-none" />
+        
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10">
+          <span className="inline-block bg-white/20 border border-white/30 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
+            Get in Touch
           </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Contact Us</h1>
-          <p className="text-green-200 max-w-xl mx-auto">
-            Have a question, complaint or suggestion? We'd love to hear from you. Our team responds within 24 hours.
+          <h1 className="text-4xl sm:text-6xl font-black mb-6 tracking-tight">Contact Our Team</h1>
+          <p className="text-red-100 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+            Have a question, feedback or want to partner with us? We're here to help you experience the best of Redleaf-BD.
           </p>
         </motion.div>
       </section>
@@ -87,8 +91,8 @@ const ContactUs = () => {
                   href={href}
                   className="flex items-start gap-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-[#0A3D2A]/30 hover:shadow-md transition group"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-[#0A3D2A]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#0A3D2A] transition">
-                    <Icon className="h-5 w-5 text-[#0A3D2A] group-hover:text-white transition" />
+                  <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 group-hover:bg-red-600 transition-colors duration-300">
+                    <Icon className="h-5 w-5 text-red-600 group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">{label}</p>
@@ -97,10 +101,15 @@ const ContactUs = () => {
                 </a>
               ))}
 
-              <div className="p-4 bg-green-50 border border-green-200 rounded-2xl">
-                <p className="text-sm text-green-800 font-semibold mb-1">⏰ Business Hours</p>
-                <p className="text-sm text-green-700">Saturday – Thursday: 9 AM – 9 PM</p>
-                <p className="text-sm text-green-700">Friday: 2 PM – 8 PM (after Juma)</p>
+              <div className="p-5 bg-red-50 border border-red-100 rounded-2xl shadow-sm">
+                <p className="text-sm text-red-800 font-extrabold mb-2 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  Business Hours
+                </p>
+                <div className="space-y-1 text-sm text-red-700/80 font-medium">
+                  <p>Saturday – Thursday: <span className="text-red-900 font-bold">9 AM – 9 PM</span></p>
+                  <p>Friday: <span className="text-red-900 font-bold">2 PM – 8 PM</span> (After Juma)</p>
+                </div>
               </div>
             </motion.div>
 
@@ -176,7 +185,7 @@ const ContactUs = () => {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-[#0A3D2A] hover:bg-green-800 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-red-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {status === 'loading' ? (
                       <>
@@ -190,6 +199,39 @@ const ContactUs = () => {
                 </form>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+      {/* Marketing Section */}
+      <section className="py-20 border-t border-gray-100 bg-white">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 tracking-tight">The Redleaf-BD Promise</h2>
+            <div className="w-20 h-1.5 bg-red-600 mx-auto rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: Leaf, title: '100% Organic', desc: 'Sourced directly from trusted farms to ensure pure quality.' },
+              { icon: Truck, title: 'Fastest Delivery', desc: "Quick and safe delivery within 2 hours in Dhaka City." },
+              { icon: ShieldCheck, title: 'Secure Checkout', desc: 'Your payments are protected with top-tier SSL encryption.' },
+              { icon: Headphones, title: '24/7 Support', desc: 'Our dedicated team is always here for your assistance.' }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:bg-white hover:border-red-100 hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300 group text-center"
+              >
+                <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-red-600 transition-colors duration-300">
+                  <item.icon className="w-7 h-7 text-red-600 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h4 className="text-xl font-extrabold text-gray-900 mb-2">{item.title}</h4>
+                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

@@ -165,7 +165,7 @@ body,
 
 body {
   margin: 0;
-  font-family: var(--font-family-helvetica);
+  font-family: 'Poppins', var(--font-family-helvetica);
   color: var(--color-charcoal);
   background-color: #ffffff;
   -webkit-font-smoothing: antialiased;
@@ -681,4 +681,44 @@ button {
 
 .pause-on-hover:hover {
   animation-play-state: paused;
+}
+
+/* === CAPTCHA STYLING === */
+#reload_href {
+  color: #facc15 !important; /* yellow-400 */
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(250, 204, 21, 0.3) !important;
+  margin-left: 5px !important;
+}
+
+#reload_href:hover {
+  color: #fde047 !important; /* yellow-300 */
+}
+
+#captcha_canvas {
+  filter: invert(1) brightness(2) contrast(1.2); /* Make black text white for dark background */
+  border-radius: 4px;
+}
+
+/* === DASHBOARD UTILITIES === */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.premium-shadow {
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+}
+
+.premium-card {
+  @apply bg-white rounded-[40px] border border-gray-50 shadow-sm transition-all duration-300;
+}
+
+.premium-card:hover {
+  @apply shadow-xl shadow-red-900/5 -translate-y-1;
 }

@@ -93,7 +93,7 @@ const CheckoutForm = () => {
                         icon: "success",
                         title: "Payment Successful!",
                         text: "Your order has been officially processed.",
-                        confirmButtonColor: '#0A3D2A',
+                        confirmButtonColor: '#dc2626',
                     });
                     navigate('/dashboard/payment-history');
                 }
@@ -109,7 +109,7 @@ const CheckoutForm = () => {
     if (isOrderLoading) {
         return (
             <div className="flex justify-center items-center h-40">
-               <Loader2 className="animate-spin text-[#0A3D2A] h-8 w-8" />
+                <Loader2 className="animate-spin text-[#0A3D2A] h-8 w-8" />
             </div>
         );
     }

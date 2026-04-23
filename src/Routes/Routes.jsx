@@ -26,8 +26,10 @@ import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 import ManageUsers from "../pages/Dashboard/ManageUsers";
 import ManageProducts from "../pages/Dashboard/ManageProducts";
 import ManagePayments from "../pages/Dashboard/ManagePayments";
+import VerifyPayments from "../pages/Dashboard/VerifyPayments";
 import ShowContactData from "../pages/Dashboard/ShowContactData";
 import AddProduct from "../pages/Dashboard/addProduct";
+import AddBlog from "../pages/Dashboard/AddBlog";
 
 // Dashboard — User Pages
 import Profile from "../pages/Dashboard/Profile";
@@ -104,9 +106,18 @@ export const router = createBrowserRouter([
         element: <AdminRoute><AddProduct /></AdminRoute>,
       },
       {
+        path: "add-blog",
+        element: <AdminRoute><AddBlog /></AdminRoute>,
+      },
+      {
         path: "manage-payments",
         element: <AdminRoute><ManagePayments /></AdminRoute>,
       },
+      {
+        path: "verify-payments",
+        element: <AdminRoute><VerifyPayments /></AdminRoute>,
+      },
+
       {
         path: "showContact",
         element: <AdminRoute><ShowContactData /></AdminRoute>,
