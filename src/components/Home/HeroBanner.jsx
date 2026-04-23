@@ -198,6 +198,8 @@ const HeroBanner = () => {
                 <img
                   src={staticPromoImg}
                   alt="Promotional Banner"
+                  loading="eager"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </Link>
@@ -215,6 +217,8 @@ const HeroBanner = () => {
                   <img
                     src={banner.img}
                     alt={banner.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </motion.div>

@@ -100,6 +100,8 @@ const ProductCard = ({ product, disableHoverAnimation }) => {
           <img
             src={image}
             alt={title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out"
           />
         </div>
@@ -153,4 +155,4 @@ const ProductCard = ({ product, disableHoverAnimation }) => {
   );
 };
 
-export default ProductCard;
+export default React.memo(ProductCard);

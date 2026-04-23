@@ -40,7 +40,16 @@ import AuthProvider from './Providers/AuthProvider';
 import LoadingScreen from './components/Loading/LoadingScreen';
 import SmoothCursor from './components/ui/SmoothCursor';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,    // 5 min — data is fresh, no refetch on navigation
+      gcTime:    1000 * 60 * 15,   // 15 min — keep unused data in memory
+      refetchOnWindowFocus: false,  // Don't refetch when switching tabs
+      retry: 1,                    // Only retry failed requests once
+    },
+  },
+});
 
 const App = () => {
   return (

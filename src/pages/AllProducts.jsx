@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
@@ -57,8 +57,10 @@ const AllProducts = () => {
     queryFn: async () => {
       const catObj = categories.find(c => c.slug === selectedCategory);
       const backendCategory = catObj ? catObj.name : selectedCategory;
-      const categoryParam = selectedCategory !== 'all' ? `&category=${encodeURIComponent(backendCategory)}` : '';
-      const res = await axiosPublic.get(`/products?limit=100${categoryParam}`);
+      const params = new URLSearchParams({ limit: '24' });
+      if (selectedCategory !== 'all') params.set('category', backendCategory);
+      if (debouncedSearch) params.set('search', debouncedSearch);
+      const res = await axiosPublic.get(`/products?${params.toString()}`);
       return res.data || { products: [] };
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -66,42 +68,26 @@ const AllProducts = () => {
 
   const rawProducts = result.products || [];
 
-  const products = rawProducts.filter(p => {
-    if (!debouncedSearch) return true;
-    const term = debouncedSearch.toLowerCase().trim();
-    
-    const dict = {
-      'honey': 'মধু', 'meat': 'গোশত', 'beef': 'গরু', 'chicken': 'মুরগি', 'rice': 'চাল',
-      'oil': 'তেল', 'spice': 'মসলা', 'tea': 'চা', 'ghee': 'ঘি', 'milk': 'দুধ', 'mango': 'আম',
-      'pickle': 'আচার', 'date': 'খেজুর', 'nut': 'বাদাম', 'water': 'পানি', 'sugar': 'চিনি',
-      'salt': 'লবণ', 'egg': 'ডিম', 'fish': 'মাছ', 'veg': 'সবজি', 'fruit': 'ফল', 'cow': 'গরু'
-    };
-    
-    let translatedTerm = term;
-    for (const [en, bn] of Object.entries(dict)) {
-      if (term.includes(en)) {
-        translatedTerm = bn;
-        break;
-      }
-    }
+  // Client-side search filter (for instant response while typing)
+  const products = debouncedSearch
+    ? rawProducts.filter(p => {
+        const term = debouncedSearch.toLowerCase().trim();
+        return (
+          (p.title && p.title.toLowerCase().includes(term)) ||
+          (p.category && p.category.toLowerCase().includes(term))
+        );
+      })
+    : rawProducts;
 
-    return (
-      (p.title && p.title.toLowerCase().includes(term)) ||
-      (p.title && p.title.includes(translatedTerm)) ||
-      (p.category && p.category.toLowerCase().includes(term)) ||
-      (p.description && p.description.toLowerCase().includes(term))
-    );
-  });
-
-  const handleCategorySelect = (slug) => {
+  const handleCategorySelect = useCallback((slug) => {
     setSelectedCategory(slug);
-    if (slug === 'all') {
-      searchParams.delete('cat');
-    } else {
-      searchParams.set('cat', slug);
-    }
-    setSearchParams(searchParams);
-  };
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      if (slug === 'all') next.delete('cat');
+      else next.set('cat', slug);
+      return next;
+    });
+  }, [setSearchParams]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -205,9 +191,21 @@ const AllProducts = () => {
           {/* Main Content */}
           <main className="flex-1 min-h-[400px]">
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-20 animate-pulse">
-                <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mb-4" />
-                <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Loading Freshness...</p>
+              // Skeleton shimmer grid — matches real card layout, eliminates CLS
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 px-4 md:px-0">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden animate-pulse">
+                    <div className="h-36 sm:h-40 bg-gray-100" />
+                    <div className="px-3 py-3 space-y-2">
+                      <div className="h-3 bg-gray-100 rounded w-3/4" />
+                      <div className="h-3 bg-gray-100 rounded w-1/2" />
+                      <div className="flex justify-between items-center pt-3">
+                        <div className="h-5 bg-gray-100 rounded w-16" />
+                        <div className="h-9 w-16 bg-red-50 rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : products.length === 0 ? (
               <motion.div 

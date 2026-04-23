@@ -105,7 +105,7 @@ const PaymentHistory = () => {
                       <div>
                         <div className="flex flex-wrap items-center gap-3 mb-2">
                           <span className="font-black text-gray-900 font-mono text-lg tracking-tight">
-                            #{order._id?.slice(-8).toUpperCase()}
+                            {order.orderIdString || `#${order._id?.slice(-8).toUpperCase()}`}
                           </span>
                           <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] uppercase font-black tracking-widest border ${cfg.cls}`}>
                             <StatusIcon className="h-3.5 w-3.5" />{cfg.label}

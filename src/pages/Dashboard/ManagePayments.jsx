@@ -35,6 +35,7 @@ const ManagePayments = () => {
     const matchSearch = !search ||
       o.email?.toLowerCase().includes(search.toLowerCase()) ||
       o._id?.toLowerCase().includes(search.toLowerCase()) ||
+      o.orderIdString?.toLowerCase().includes(search.toLowerCase()) ||
       o.customerName?.toLowerCase().includes(search.toLowerCase());
     return matchStatus && matchSearch;
   });

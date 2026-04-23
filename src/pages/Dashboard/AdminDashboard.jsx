@@ -167,7 +167,7 @@ const AdminDashboard = () => {
               return (
                 <div key={order._id} className="px-8 py-5 flex items-center justify-between gap-4 hover:bg-gray-50 transition-colors">
                   <div className="min-w-0">
-                    <p className="text-[10px] font-black text-red-600 mb-0.5 tracking-widest">#{order._id?.slice(-6).toUpperCase()}</p>
+                    <p className="text-[10px] font-black text-red-600 mb-0.5 tracking-widest">{order.orderIdString || `#${order._id?.slice(-6).toUpperCase()}`}</p>
                     <p className="text-sm font-bold text-gray-800 truncate leading-tight mb-0.5">{order.email?.split('@')[0]}</p>
                     <p className="text-[10px] font-bold text-gray-400">
                       {new Date(order.orderedAt).toLocaleString('en-BD', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })}

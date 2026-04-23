@@ -1,47 +1,56 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
-// Layouts
-import Main from "../Layout/Main";
+// ─── Eager (critical-path) imports ────────────────────────────────────────────
+// These are needed immediately on first paint — do NOT make them lazy.
+import Main      from "../Layout/Main";
 import Dashboard from "../Layout/Dashboard";
-
-// Public Pages
-import Home from "../pages/Home";
-import Login from "../Login/Login";
-import SignUp from "../SignUp/SignUp";
-import NotFound from "../pages/NotFoumd";
-import Loading from "../components/Loading/Loading";
-import AboutUs from "../pages/AboutUs";
-import ContactUs from "../pages/ContactUs";
-import AllProducts from "../pages/AllProducts";
-import Offers from "../pages/Offers";
-import Corporate from "../pages/Corporate";
-import Export from "../pages/Export";
-import Outlets from "../pages/Outlets";
-import ImpactStories from "../pages/ImpactStories";
-import HalalInvestment from "../pages/HalalInvestment";
-import Blog from "../pages/Blog";
-
-// Dashboard — Admin Pages
-import AdminDashboard from "../pages/Dashboard/AdminDashboard";
-import ManageUsers from "../pages/Dashboard/ManageUsers";
-import ManageProducts from "../pages/Dashboard/ManageProducts";
-import ManagePayments from "../pages/Dashboard/ManagePayments";
-import VerifyPayments from "../pages/Dashboard/VerifyPayments";
-import ShowContactData from "../pages/Dashboard/ShowContactData";
-import AddProduct from "../pages/Dashboard/addProduct";
-import AddBlog from "../pages/Dashboard/AddBlog";
-
-// Dashboard — User Pages
-import Profile from "../pages/Dashboard/Profile";
-import PaymentHistory from "../pages/Dashboard/PaymentHistory";
-import MyBookings from "../pages/Dashboard/MyBookings";
-import Payment from "../pages/Dashboard/Payment";
-
-// Route Guards
+import Home      from "../pages/Home";
+import Login     from "../Login/Login";
+import SignUp    from "../SignUp/SignUp";
+import NotFound  from "../pages/NotFoumd";
+import Loading   from "../components/Loading/Loading";
 import PrivateRoute from "./PrivateRoute";
-import useAdmin from "../hooks/useAdmin";
+import useAdmin  from "../hooks/useAdmin";
 
-// Admin Route Guard Component
+// ─── Lazy (code-split) public pages ───────────────────────────────────────────
+// Each becomes its own JS chunk loaded only when the user navigates there.
+const AllProducts    = lazy(() => import("../pages/AllProducts"));
+const Offers         = lazy(() => import("../pages/Offers"));
+const Corporate      = lazy(() => import("../pages/Corporate"));
+const Export         = lazy(() => import("../pages/Export"));
+const Outlets        = lazy(() => import("../pages/Outlets"));
+const ImpactStories  = lazy(() => import("../pages/ImpactStories"));
+const HalalInvestment = lazy(() => import("../pages/HalalInvestment"));
+const Blog           = lazy(() => import("../pages/Blog"));
+const AboutUs        = lazy(() => import("../pages/AboutUs"));
+const ContactUs      = lazy(() => import("../pages/ContactUs"));
+
+// ─── Lazy dashboard — Admin pages ─────────────────────────────────────────────
+const AdminDashboard  = lazy(() => import("../pages/Dashboard/AdminDashboard"));
+const ManageUsers     = lazy(() => import("../pages/Dashboard/ManageUsers"));
+const ManageProducts  = lazy(() => import("../pages/Dashboard/ManageProducts"));
+const ManagePayments  = lazy(() => import("../pages/Dashboard/ManagePayments"));
+const VerifyPayments  = lazy(() => import("../pages/Dashboard/VerifyPayments"));
+const ShowContactData = lazy(() => import("../pages/Dashboard/ShowContactData"));
+const AddProduct      = lazy(() => import("../pages/Dashboard/addProduct"));
+const AddBlog         = lazy(() => import("../pages/Dashboard/AddBlog"));
+
+// ─── Lazy dashboard — User pages ──────────────────────────────────────────────
+const Profile        = lazy(() => import("../pages/Dashboard/Profile"));
+const PaymentHistory = lazy(() => import("../pages/Dashboard/PaymentHistory"));
+const MyBookings     = lazy(() => import("../pages/Dashboard/MyBookings"));
+const Payment        = lazy(() => import("../pages/Dashboard/Payment"));
+
+// ─── Suspense wrapper shorthand ────────────────────────────────────────────────
+// Wraps any lazy component with a Loading fallback automatically.
+const S = ({ children }) => (
+  <Suspense fallback={<Loading />}>
+    {children}
+  </Suspense>
+);
+
+// ─── Admin Route Guard ─────────────────────────────────────────────────────────
 const AdminRoute = ({ children }) => {
   const [isAdmin, isAdminLoading] = useAdmin();
   if (isAdminLoading) return <Loading />;
@@ -57,25 +66,26 @@ const AdminRoute = ({ children }) => {
   return children;
 };
 
+// ─── Router ────────────────────────────────────────────────────────────────────
 export const router = createBrowserRouter([
   // ── Public / Main Layout ─────────────────────────────────────────────────
   {
     path: "/",
     element: <Main />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "products", element: <AllProducts /> },
-      { path: "offers", element: <Offers /> },
-      { path: "corporate", element: <Corporate /> },
-      { path: "export", element: <Export /> },
-      { path: "outlets", element: <Outlets /> },
-      { path: "impact", element: <ImpactStories /> },
-      { path: "halal-investment", element: <HalalInvestment /> },
-      { path: "blog", element: <Blog /> },
-      { path: "about",   element: <AboutUs /> },
-      { path: "contact", element: <ContactUs /> },
-      { path: "login",   element: <Login /> },
-      { path: "signup",  element: <SignUp /> },
+      { index: true,                     element: <Home /> },                         // Eager — above fold
+      { path: "products",                element: <S><AllProducts /></S> },
+      { path: "offers",                  element: <S><Offers /></S> },
+      { path: "corporate",               element: <S><Corporate /></S> },
+      { path: "export",                  element: <S><Export /></S> },
+      { path: "outlets",                 element: <S><Outlets /></S> },
+      { path: "impact",                  element: <S><ImpactStories /></S> },
+      { path: "halal-investment",        element: <S><HalalInvestment /></S> },
+      { path: "blog",                    element: <S><Blog /></S> },
+      { path: "about",                   element: <S><AboutUs /></S> },
+      { path: "contact",                 element: <S><ContactUs /></S> },
+      { path: "login",                   element: <Login /> },                         // Eager — auth critical
+      { path: "signup",                  element: <SignUp /> },                        // Eager — auth critical
     ],
   },
 
@@ -89,45 +99,20 @@ export const router = createBrowserRouter([
     ),
     children: [
       // Admin Routes
-      {
-        path: "admin-overview",
-        element: <AdminRoute><AdminDashboard /></AdminRoute>,
-      },
-      {
-        path: "manage-users",
-        element: <AdminRoute><ManageUsers /></AdminRoute>,
-      },
-      {
-        path: "manage-products",
-        element: <AdminRoute><ManageProducts /></AdminRoute>,
-      },
-      {
-        path: "add-product",
-        element: <AdminRoute><AddProduct /></AdminRoute>,
-      },
-      {
-        path: "add-blog",
-        element: <AdminRoute><AddBlog /></AdminRoute>,
-      },
-      {
-        path: "manage-payments",
-        element: <AdminRoute><ManagePayments /></AdminRoute>,
-      },
-      {
-        path: "verify-payments",
-        element: <AdminRoute><VerifyPayments /></AdminRoute>,
-      },
-
-      {
-        path: "showContact",
-        element: <AdminRoute><ShowContactData /></AdminRoute>,
-      },
+      { path: "admin-overview",  element: <AdminRoute><S><AdminDashboard /></S></AdminRoute> },
+      { path: "manage-users",    element: <AdminRoute><S><ManageUsers /></S></AdminRoute> },
+      { path: "manage-products", element: <AdminRoute><S><ManageProducts /></S></AdminRoute> },
+      { path: "add-product",     element: <AdminRoute><S><AddProduct /></S></AdminRoute> },
+      { path: "add-blog",        element: <AdminRoute><S><AddBlog /></S></AdminRoute> },
+      { path: "manage-payments", element: <AdminRoute><S><ManagePayments /></S></AdminRoute> },
+      { path: "verify-payments", element: <AdminRoute><S><VerifyPayments /></S></AdminRoute> },
+      { path: "showContact",     element: <AdminRoute><S><ShowContactData /></S></AdminRoute> },
 
       // User Routes
-      { path: "profile",         element: <Profile /> },
-      { path: "payment-history", element: <PaymentHistory /> },
-      { path: "my-bookings",     element: <MyBookings /> },
-      { path: "payment/:orderId", element: <Payment /> },
+      { path: "profile",          element: <S><Profile /></S> },
+      { path: "payment-history",  element: <S><PaymentHistory /></S> },
+      { path: "my-bookings",      element: <S><MyBookings /></S> },
+      { path: "payment/:orderId", element: <S><Payment /></S> },
     ],
   },
 
