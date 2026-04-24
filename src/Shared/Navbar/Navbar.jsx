@@ -61,17 +61,21 @@ const Navbar = () => {
 
           {/* Search Bar (Desktop) */}
           <div className="hidden md:flex flex-1 max-w-2xl mx-8 relative">
-            <form onSubmit={handleSearch} className="w-full relative group">
-              <input 
-                type="text" 
-                placeholder="পণ্য খুঁজুন..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full py-2.5 pl-5 pr-12 rounded-full text-gray-800 bg-white border-2 border-transparent focus:border-red-400 focus:outline-none shadow-sm transition-all text-sm font-medium"
-              />
-              <button type="submit" className="absolute right-0 top-0 h-full px-4 bg-red-500 hover:bg-red-600 text-white rounded-full transition-colors">
-                <Search className="w-5 h-5" />
-              </button>
+            <form onSubmit={handleSearch} className="w-full">
+              <div className="relative flex items-center w-full rounded-full border border-slate-700 p-[1px] bg-white shadow-sm overflow-hidden">
+                <div className="flex w-full items-center rounded-full border border-red-500 bg-white p-[2px]">
+                  <input 
+                    type="text" 
+                    placeholder="|পণ্য খুঁজুন..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full py-2 pl-4 pr-2 bg-transparent border-none focus:outline-none text-sm text-gray-700 placeholder-gray-400"
+                  />
+                  <button type="submit" className="flex-shrink-0 h-9 w-9 flex items-center justify-center bg-[#FF2A3A] hover:bg-red-600 text-white rounded-full transition-colors shadow-sm ml-1">
+                    <Search className="w-4 h-4" strokeWidth={2.5} />
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
 
@@ -131,18 +135,22 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Search Bar - Visible only on small screens */}
-        <div className="md:hidden px-4 pb-3">
-          <form onSubmit={handleSearch} className="w-full relative">
-            <input 
-              type="text" 
-              placeholder="পণ্য খুঁজুন..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-2 pl-4 pr-10 rounded-full text-gray-800 bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm"
-            />
-            <button type="submit" className="absolute right-0 top-0 h-full px-3 bg-red-500 text-white rounded-full transition-colors">
-               <Search className="w-4 h-4" />
-            </button>
+        <div className="md:hidden px-4 pb-3 mt-1">
+          <form onSubmit={handleSearch} className="w-full">
+            <div className="relative flex items-center w-full rounded-full border border-slate-700 p-[1px] bg-white shadow-sm overflow-hidden">
+              <div className="flex w-full items-center rounded-full border border-red-500 bg-white p-[2px]">
+                <input 
+                  type="text" 
+                  placeholder="|পণ্য খুঁজুন..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full py-1.5 pl-4 pr-2 bg-transparent border-none focus:outline-none text-sm text-gray-700 placeholder-gray-400"
+                />
+                <button type="submit" className="flex-shrink-0 h-8 w-8 flex items-center justify-center bg-[#FF2A3A] hover:bg-red-600 text-white rounded-full transition-colors shadow-sm ml-1">
+                  <Search className="w-[14px] h-[14px]" strokeWidth={2.5} />
+                </button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
