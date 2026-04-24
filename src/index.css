@@ -45,30 +45,10 @@
 }
 
 /* === FONTS === */
-@font-face {
-  font-family: 'Helvetica';
-  src: url('./assets/font/Helvetica.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Helvetica-Bold';
-  src: url('./assets/font/Helvetica-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'HelveticaRoundedBold';
-  src: url('./assets/font/helvetica-rounded-bold-5871d05ead8de.otf') format('opentype');
-  font-weight: bold;
-  font-style: normal;
-}
+/* Using system font stack — Helvetica font files were removed to avoid OTS errors */
 
 :root {
-  /* ... existing vars ... */
-  --font-family-helvetica-rounded: 'HelveticaRoundedBold', system-ui, -apple-system, sans-serif;
+  --font-family-helvetica-rounded: 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
 }
 
 /* ... existing styles ... */
@@ -119,8 +99,8 @@
   --color-button-hero-text: #282A36;
   --color-button-hero-shadow: #282A36;
   --font-family-space-grotesk: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-helvetica: 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-helvetica-bold: 'Helvetica-Bold', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-helvetica: 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-helvetica-bold: 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* === SRCBD OFFICIAL COLORS === */
   --color-srcbd-red: #e63946;
