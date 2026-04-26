@@ -31,7 +31,7 @@ const Login = () => {
     }
 
     if (user) {
-        return <Navigate to={from} replace />;
+        return <Navigate to="/" replace />;
     }
 
     const onSubmit = (data) => {
@@ -42,7 +42,7 @@ const Login = () => {
         signIn(data.email, data.password)
             .then(() => {
                 Swal.fire({ title: 'Welcome back!', icon: 'success', showConfirmButton: false, timer: 1500 });
-                navigate(from, { replace: true });
+                navigate("/", { replace: true });
             })
             .catch(() => {
                 Swal.fire({ title: 'Login Failed', text: 'Invalid email or password', icon: 'error', confirmButtonColor: '#dc2626' });
