@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Eye, EyeOff, ArrowRight, ShieldCheck, Leaf, Star, UploadCloud } from 'lucide-react';
 
@@ -17,7 +17,7 @@ const SignUp = () => {
 
     const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const { createUser, updateUserProfile, user, loading } = useContext(AuthContext);
     const navigate = useNavigate();
     const auth = getAuth();
 
@@ -25,6 +25,14 @@ const SignUp = () => {
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
     useEffect(() => { loadCaptchaEnginge(6); }, []);
+
+    if (loading) {
+        return <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center"><div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div></div>;
+    }
+
+    if (user) {
+        return <Navigate to="/" replace />;
+    }
 
     const handleValidateCaptcha = () => {
         const captchaValue = document.getElementById('signupCaptchaInput')?.value;

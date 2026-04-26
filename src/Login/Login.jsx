@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
@@ -14,13 +14,21 @@ const Login = () => {
     const [captchaVerified, setCaptchaVerified] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signIn } = useContext(AuthContext);
+    const { signIn, user, loading } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
     useEffect(() => { loadCaptchaEnginge(6); }, []);
+
+    if (loading) {
+        return <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center"><div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div></div>;
+    }
+
+    if (user) {
+        return <Navigate to={from} replace />;
+    }
 
     const onSubmit = (data) => {
         if (!termsAccepted) {

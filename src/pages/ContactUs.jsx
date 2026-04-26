@@ -11,8 +11,8 @@ const ContactUs = () => {
 
   const validate = () => {
     const e = {};
-    if (!form.name.trim())    e.name = 'Name is required';
-    if (!form.email.trim())   e.email = 'Email is required';
+    if (!form.name.trim()) e.name = 'Name is required';
+    if (!form.email.trim()) e.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = 'Invalid email address';
     if (!form.message.trim()) e.message = 'Message is required';
     setErrors(e);
@@ -38,10 +38,9 @@ const ContactUs = () => {
   };
 
   const inputCls = (field) =>
-    `w-full px-4 py-3 rounded-xl border text-sm text-gray-800 focus:outline-none focus:ring-2 transition ${
-      errors[field]
-        ? 'border-red-400 focus:ring-red-200 bg-red-50'
-        : 'border-gray-200 focus:ring-red-100 focus:border-red-500 bg-white'
+    `w-full px-4 py-3 rounded-xl border text-sm text-gray-800 focus:outline-none focus:ring-2 transition ${errors[field]
+      ? 'border-red-400 focus:ring-red-200 bg-red-50'
+      : 'border-gray-200 focus:ring-red-100 focus:border-red-500 bg-white'
     }`;
 
   return (
@@ -51,7 +50,7 @@ const ContactUs = () => {
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/5 rounded-full translate-x-1/3 translate-y-1/3 pointer-events-none" />
-        
+
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10">
           <span className="inline-block bg-white/20 border border-white/30 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
             Get in Touch
@@ -82,9 +81,9 @@ const ContactUs = () => {
               </div>
 
               {[
-                { icon: Phone,  label: 'Phone',    value: '+880 1234-567890',          href: 'tel:+8801234567890' },
-                { icon: Mail,   label: 'Email',    value: 'support@redleafbd.com',     href: 'mailto:support@redleafbd.com' },
-                { icon: MapPin, label: 'Address',  value: '123 Green Valley Road, Banani, Dhaka-1213', href: '#' },
+                { icon: Phone, label: 'Phone', value: '+880 1234-567890', href: 'tel:+8801234567890' },
+                { icon: Mail, label: 'Email', value: 'support@redleafbd.com', href: 'mailto:support@redleafbd.com' },
+                { icon: MapPin, label: 'Address', value: '123 Green Valley Road, Banani, Dhaka-1213', href: '#' },
               ].map(({ icon: Icon, label, value, href }, i) => (
                 <a
                   key={i}
@@ -189,7 +188,7 @@ const ContactUs = () => {
                   >
                     {status === 'loading' ? (
                       <>
-                        <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                        <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>
                         Sending…
                       </>
                     ) : (
