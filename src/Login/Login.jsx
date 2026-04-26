@@ -20,7 +20,11 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
-    useEffect(() => { loadCaptchaEnginge(6); }, []);
+    useEffect(() => {
+        if (!loading && !user) {
+            loadCaptchaEnginge(6);
+        }
+    }, [loading, user]);
 
     if (loading) {
         return <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center"><div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div></div>;

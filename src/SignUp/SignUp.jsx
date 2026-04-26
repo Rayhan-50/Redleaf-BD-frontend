@@ -24,7 +24,11 @@ const SignUp = () => {
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-    useEffect(() => { loadCaptchaEnginge(6); }, []);
+    useEffect(() => {
+        if (!loading && !user) {
+            loadCaptchaEnginge(6);
+        }
+    }, [loading, user]);
 
     if (loading) {
         return <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center"><div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div></div>;
