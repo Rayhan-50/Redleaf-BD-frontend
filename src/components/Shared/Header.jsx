@@ -8,8 +8,8 @@ const Header = () => {
       {/* Top micro bar */}
       <div className="hidden md:flex justify-between items-center px-4 py-1 text-xs border-b border-green-800 bg-[#072F20]">
         <div className="flex gap-4">
-          <span>Call Us: +880 1XXX-XXXXXX</span>
-          <span>Email: support@redleafbd.com</span>
+          <span>Call Us: +8809638898288</span>
+          <span>Email: support@redleaf-bd.com</span>
         </div>
         <div className="flex gap-4">
           <Link to="/corporate" className="hover:text-red-400 transition-colors">Corporate</Link>

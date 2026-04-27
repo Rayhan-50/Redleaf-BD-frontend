@@ -6,6 +6,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../Shared/Navbar/Navbar';
 import Loading from '../components/Loading/Loading';
 import Footer from '../Shared/Footer/Footer';
+import FloatingWhatsApp from '../components/Shared/FloatingWhatsApp';
 
 const Main = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const Main = () => {
         <Outlet />
       </main>
       {!noHeaderFooter && <Footer />}
+      {!noHeaderFooter && <FloatingWhatsApp />}
     </div>
   );
 };

@@ -13,7 +13,8 @@ import useImageUpload from '../../hooks/useImageUpload';
 
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
 
-const ADMIN_NUMBER = '01645991970'; // bKash & Nagad Number
+const BKASH_NUMBER = '01817619847';
+const NAGAD_NUMBER = '01708768054';
 
 const Payment = () => {
     const { orderId } = useParams();
@@ -204,7 +205,7 @@ const Payment = () => {
                                     
                                     <div className={`border rounded-xl p-5 space-y-2 ${paymentMethod === 'bkash_manual' ? 'bg-pink-50/50 border-pink-100 text-pink-900' : 'bg-orange-50/50 border-orange-100 text-orange-900'}`}>
                                         <p className="text-sm font-semibold">1. Open your App and select <span className="font-bold">Send Money</span>.</p>
-                                        <p className="text-sm font-semibold">2. Send exact <span className="font-bold">৳{totalPrice.toLocaleString()}</span> to <span className="font-mono font-bold bg-white px-2 py-1 rounded">{ADMIN_NUMBER}</span></p>
+                                        <p className="text-sm font-semibold">2. Send exact <span className="font-bold">৳{totalPrice.toLocaleString()}</span> to <span className="font-mono font-bold bg-white px-2 py-1 rounded">{paymentMethod === 'bkash_manual' ? BKASH_NUMBER : NAGAD_NUMBER}</span></p>
                                         <p className="text-sm font-semibold">3. Use <span className="font-bold bg-white px-2 py-1 rounded mx-1">{orderIdStr}</span> as your reference.</p>
                                         <p className="text-sm font-semibold">4. Enter your Sender Number, TxID, and upload a screenshot below.</p>
                                     </div>
