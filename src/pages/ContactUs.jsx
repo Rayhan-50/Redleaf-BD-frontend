@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Mail, Phone, Send, CheckCircle, AlertCircle, Leaf, Truck, ShieldCheck, Headphones } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 
 const ContactUs = () => {
@@ -81,8 +82,9 @@ const ContactUs = () => {
               </div>
 
               {[
-                { icon: Phone, label: 'Phone', value: '+880 1234-567890', href: 'tel:+8801234567890' },
-                { icon: Mail, label: 'Email', value: 'support@redleafbd.com', href: 'mailto:support@redleafbd.com' },
+                { icon: Phone, label: 'Phone', value: '+8809638898288', href: 'tel:+8809638898288' },
+                { icon: FaWhatsapp, label: 'WhatsApp', value: '+880 1816-126055', href: 'https://wa.me/8801816126055' },
+                { icon: Mail, label: 'Email', value: 'support@redleaf-bd.com', href: 'mailto:support@redleaf-bd.com' },
                 { icon: MapPin, label: 'Address', value: '123 Green Valley Road, Banani, Dhaka-1213', href: '#' },
               ].map(({ icon: Icon, label, value, href }, i) => (
                 <a

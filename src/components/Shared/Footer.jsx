@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Mail, Phone, ArrowUpRight } from 'lucide-react';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -21,7 +21,7 @@ const Footer = () => {
               Redleaf-BD is Bangladesh's most trusted online grocery delivery platform. We bring organic, fresh, and handpicked daily necessities right to your door.
             </p>
             <div className="flex gap-4 mt-2">
-              <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaFacebook size={16} /></a>
+              <a href="https://www.facebook.com/share/1Nhgq1nMpP/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaFacebook size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaTwitter size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaInstagram size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaYoutube size={16} /></a>
@@ -62,11 +62,15 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="text-red-500 shrink-0" size={18} />
-                <span>+880 1234-567890</span>
+                <span>+8809638898288</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaWhatsapp className="text-[#25D366] shrink-0" size={18} />
+                <span>+880 1816-126055</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-red-500 shrink-0" size={18} />
-                <span>support@redleafbd.com</span>
+                <span>support@redleaf-bd.com</span>
               </li>
             </ul>
             

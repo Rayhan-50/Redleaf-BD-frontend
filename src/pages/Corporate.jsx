@@ -124,8 +124,8 @@ const Corporate = () => {
          <section className="mt-auto bg-[#071E40] text-white py-16">
             <div className="container mx-auto px-4 text-center">
                <h2 className="text-3xl md:text-4xl font-bold mb-6">Want to be a Corporate Customer?</h2>
-               <p className="text-lg text-gray-300 mb-2">Call us at <a href="tel:01713349631" className="text-white font-bold hover:underline">017XXXXXXXX</a> (WhatsApp Available) or</p>
-               <p className="text-lg text-gray-300 mb-8">Email us at <a href="mailto:corporate@redleafbd.com" className="text-white font-bold hover:underline">corporate@redleafbd.com</a></p>
+               <p className="text-lg text-gray-300 mb-2">Call us at <a href="tel:+8809638898288" className="text-white font-bold hover:underline">+8809638898288</a> (WhatsApp Available) or</p>
+               <p className="text-lg text-gray-300 mb-8">Email us at <a href="mailto:contact@redleaf-bd.com" className="text-white font-bold hover:underline">contact@redleaf-bd.com</a></p>
 
                <button className="bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-10 rounded-full transition-colors shadow-xl shadow-green-900/50 hover:-translate-y-1 transform duration-200">
                   Request a Quote
