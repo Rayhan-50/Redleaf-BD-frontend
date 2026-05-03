@@ -19,6 +19,7 @@ const ManagePayments = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch]       = useState('');
   const [filterStatus, setFilter] = useState('all');
+  const [filterLocation, setFilterLocation] = useState('all');
   const [updating, setUpdating]   = useState(null);
   const [viewOrderInfo, setViewOrderInfo] = useState(null);
 
@@ -37,7 +38,15 @@ const ManagePayments = () => {
       o._id?.toLowerCase().includes(search.toLowerCase()) ||
       o.orderIdString?.toLowerCase().includes(search.toLowerCase()) ||
       o.customerName?.toLowerCase().includes(search.toLowerCase());
-    return matchStatus && matchSearch;
+      
+    let matchLocation = true;
+    if (filterLocation === 'dhaka') {
+      matchLocation = o.deliveryLocation === 'Dhaka' || o.deliveryLocation === 'Dhaka City';
+    } else if (filterLocation === 'outside') {
+      matchLocation = o.deliveryLocation === 'Outside Dhaka';
+    }
+    
+    return matchStatus && matchSearch && matchLocation;
   });
 
   const totalRevenue = orders
@@ -163,11 +172,20 @@ const ManagePayments = () => {
           />
         </div>
         <select
+          value={filterLocation}
+          onChange={e => setFilterLocation(e.target.value)}
+          className="px-5 py-3.5 rounded-xl border border-gray-100 text-[9px] font-bold uppercase tracking-widest text-gray-500 focus:outline-none focus:ring-4 focus:ring-red-50 bg-white"
+        >
+          <option value="all">Location: All</option>
+          <option value="dhaka">Inside Dhaka</option>
+          <option value="outside">Outside Dhaka</option>
+        </select>
+        <select
           value={filterStatus}
           onChange={e => setFilter(e.target.value)}
           className="px-5 py-3.5 rounded-xl border border-gray-100 text-[9px] font-bold uppercase tracking-widest text-gray-500 focus:outline-none focus:ring-4 focus:ring-red-50 bg-white"
         >
-          <option value="all">Filter Status: All</option>
+          <option value="all">Status: All</option>
           {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.toUpperCase()}</option>)}
         </select>
       </div>
@@ -336,6 +354,14 @@ const ManagePayments = () => {
                       <span className="w-2 h-2 rounded-full bg-blue-500"></span> Delivery Logistics
                     </h4>
                     <div className="space-y-4 flex-1">
+                      <div className="grid grid-cols-3 gap-2">
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Location</p>
+                        <p className="col-span-2 font-semibold text-gray-900 text-sm leading-tight">{viewOrderInfo.deliveryLocation || viewOrderInfo.city || 'N/A'}</p>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Charge</p>
+                        <p className="col-span-2 font-semibold text-gray-900 text-sm leading-tight">৳{viewOrderInfo.deliveryCharge || 0}</p>
+                      </div>
                       <div className="grid grid-cols-3 gap-2">
                         <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">City</p>
                         <p className="col-span-2 font-semibold text-gray-900 text-sm leading-tight">{viewOrderInfo.city || 'N/A'}</p>

@@ -8,6 +8,7 @@ import useAxiosPublic from '../../hooks/useAxiosPublic';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import useCart from '../../hooks/useCart';
+import useDeliverySettings from '../../hooks/useDeliverySettings';
 import ProductCard from './ProductCard';
 
 const ProductDetailsModal = ({ product, onClose }) => {
@@ -22,6 +23,10 @@ const ProductDetailsModal = ({ product, onClose }) => {
   const [activeTab, setActiveTab] = useState('Details');
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
+  
+  const [deliverySettings] = useDeliverySettings();
+  const dhakaCharge = deliverySettings?.dhaka || 80;
+  const outsideCharge = deliverySettings?.outside || 120;
   
   useEffect(() => {
     try {
@@ -178,6 +183,18 @@ const ProductDetailsModal = ({ product, onClose }) => {
               <div className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 ${product.inStock !== false ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
                 {product.inStock !== false ? <Check size={14} /> : <X size={14} />}
                 {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 mb-8 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <p className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-1">Delivery Charge</p>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-600">Inside Dhaka:</span>
+                <span className="text-sm font-bold text-gray-900">৳{dhakaCharge}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-600">Outside Dhaka:</span>
+                <span className="text-sm font-bold text-gray-900">৳{outsideCharge}</span>
               </div>
             </div>
 

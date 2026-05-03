@@ -4,6 +4,7 @@ import { ShoppingBag, Package, CheckCircle, Clock, XCircle, Truck, Trash2, Calen
 import { AuthContext } from '../../Providers/AuthProvider';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useCart from '../../hooks/useCart';
+import useDeliverySettings from '../../hooks/useDeliverySettings';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -33,6 +34,10 @@ const MyBookings = () => {
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [deliverySettings] = useDeliverySettings();
+  const dhakaCharge = deliverySettings?.dhaka || 80;
+  const outsideCharge = deliverySettings?.outside || 120;
+  const [deliveryLocation, setDeliveryLocation] = useState('');
   const [formData, setFormData] = useState({
     fullName: user?.displayName || '',
     phone: '',
@@ -58,6 +63,16 @@ const MyBookings = () => {
 
   const totalSpent = orders.reduce((s, o) => s + (o.totalAmount || 0), 0);
   const cartTotal  = cart.reduce((s, i) => s + (i.price || 0) * (i.quantity || 1), 0);
+
+  const cityStr = (formData.city || '').toLowerCase();
+  const addressStr = (formData.address || '').toLowerCase();
+  const isDhakaLocation = deliveryLocation === 'Dhaka';
+  const isDhakaCity = cityStr.includes('dhaka');
+  const isDhakaAddress = addressStr.includes('dhaka');
+  const isDhaka = isDhakaLocation || isDhakaCity || isDhakaAddress;
+
+  const deliveryCharge = (!deliveryLocation && !isDhakaCity && !isDhakaAddress) ? 0 : isDhaka ? dhakaCharge : outsideCharge;
+  const totalWithDelivery = cartTotal + deliveryCharge;
 
   const handleRemoveFromCart = (id) => {
     Swal.fire({
@@ -96,7 +111,9 @@ const MyBookings = () => {
       city: formData.city,
       notes: formData.notes,
       items: cart,
-      totalAmount: cartTotal,
+      deliveryLocation,
+      deliveryCharge,
+      totalAmount: totalWithDelivery,
     };
 
     try {
@@ -287,6 +304,16 @@ const MyBookings = () => {
                     <input name="altPhone" value={formData.altPhone} onChange={handleInputChange} type="tel" className="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-50 transition-all font-semibold text-sm" placeholder="+880..." />
                   </div>
                   <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Delivery Location *</label>
+                    <select required value={deliveryLocation} onChange={(e) => setDeliveryLocation(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-50 transition-all font-semibold text-sm bg-white">
+                      <option value="" disabled>Select Delivery Location</option>
+                      <option value="Dhaka">Inside Dhaka City (৳{dhakaCharge})</option>
+                      <option value="Outside Dhaka">Outside Dhaka (৳{outsideCharge})</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-6">
+                  <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">City / Zone</label>
                     <input required name="city" value={formData.city} onChange={handleInputChange} type="text" className="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-50 transition-all font-semibold text-sm" placeholder="Dhaka" />
                   </div>
@@ -300,7 +327,11 @@ const MyBookings = () => {
                   <textarea name="notes" value={formData.notes} onChange={handleInputChange} rows={2} className="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-50 transition-all font-semibold text-sm resize-none" placeholder="Special delivery instructions..." />
                 </div>
                 <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <p className="font-black text-gray-900 text-xl tracking-tight text-center sm:text-left">Total Price: <span className="text-red-600">৳{cartTotal.toLocaleString()}</span></p>
+                  <div className="flex flex-col gap-1 text-center sm:text-left">
+                    <p className="text-sm font-bold text-gray-500">Subtotal: ৳{cartTotal.toLocaleString()}</p>
+                    <p className="text-sm font-bold text-gray-500">Delivery: ৳{deliveryCharge.toLocaleString()}</p>
+                    <p className="font-black text-gray-900 text-xl tracking-tight">Total Price: <span className="text-red-600">৳{totalWithDelivery.toLocaleString()}</span></p>
+                  </div>
                   <button 
                     type="submit"
                     disabled={isCheckingOut}
