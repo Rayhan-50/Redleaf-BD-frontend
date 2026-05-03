@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { NavLink, Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
   Menu, X, User, Users, Home, LogOut, Shield, Eye,
-  Package, ShoppingBag, LayoutDashboard, ChevronRight, History, Leaf, PackagePlus, FileText, Truck
+  Package, ShoppingBag, LayoutDashboard, ChevronRight, History, Leaf, PackagePlus, FileText, Truck, Star
 } from "lucide-react";
 import Swal from "sweetalert2";
 import useAdmin from "../hooks/useAdmin";
@@ -66,6 +66,7 @@ const Dashboard = () => {
     { to: "/dashboard/verify-payments", icon: Shield, label: "Verify Payments" },
     { to: "/dashboard/showContact", icon: Eye, label: "Contact Messages" },
     { to: "/dashboard/delivery-settings", icon: Truck, label: "Delivery Settings" },
+    { to: "/dashboard/manage-featured", icon: Star, label: "Popular Items" },
   ];
 
   const userNavItems = [

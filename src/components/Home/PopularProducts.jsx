@@ -8,15 +8,14 @@ import { Loader2, ChevronRight } from 'lucide-react';
 const PopularProducts = () => {
   const axiosPublic = useAxiosPublic();
 
-  const { data: result = { products: [] }, isLoading } = useQuery({
-    queryKey: ['popular-products'],
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ['featured-products'],
     queryFn: async () => {
-      const res = await axiosPublic.get('/products?sort=popular&limit=6');
-      return res.data || { products: [] };
+      const res = await axiosPublic.get('/featured-products');
+      return res.data || [];
     },
+    staleTime: 1000 * 60 * 2, // 2 min — matches backend cache TTL
   });
-
-  const products = result.products || [];
 
   return (
     <section className="py-10 relative overflow-hidden"

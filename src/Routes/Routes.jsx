@@ -36,6 +36,7 @@ const ShowContactData = lazy(() => import("../pages/Dashboard/ShowContactData"))
 const AddProduct      = lazy(() => import("../pages/Dashboard/addProduct"));
 const AddBlog         = lazy(() => import("../pages/Dashboard/AddBlog"));
 const DeliverySettings = lazy(() => import("../pages/Dashboard/DeliverySettings"));
+const ManageFeatured   = lazy(() => import("../pages/Dashboard/ManageFeatured"));
 
 // ─── Lazy dashboard — User pages ──────────────────────────────────────────────
 const Profile        = lazy(() => import("../pages/Dashboard/Profile"));
@@ -108,7 +109,8 @@ export const router = createBrowserRouter([
       { path: "manage-payments", element: <AdminRoute><S><ManagePayments /></S></AdminRoute> },
       { path: "verify-payments", element: <AdminRoute><S><VerifyPayments /></S></AdminRoute> },
       { path: "showContact",     element: <AdminRoute><S><ShowContactData /></S></AdminRoute> },
-      { path: "delivery-settings", element: <AdminRoute><S><DeliverySettings /></S></AdminRoute> },
+      { path: "delivery-settings",  element: <AdminRoute><S><DeliverySettings /></S></AdminRoute> },
+      { path: "manage-featured",    element: <AdminRoute><S><ManageFeatured /></S></AdminRoute> },
 
       // User Routes
       { path: "profile",          element: <S><Profile /></S> },
