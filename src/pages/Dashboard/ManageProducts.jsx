@@ -8,7 +8,11 @@ import ImageUploadField from '../../components/Dashboard/ImageUploadField';
 
 const CATEGORIES = ['Honey', 'Poultry & Meat', 'Rice & Grains', 'Oil', 'Spices', 'Super Foods', 'Tea & Snacks', 'Nuts & Dates', 'Pickle', 'Fruits & Veg', 'Electronics', 'Shoes', 'Clothing', 'Other'];
 
-const EMPTY_FORM = { title: '', category: '', price: '', originalPrice: '', unit: '', image: '', description: '', inStock: true };
+const EMPTY_FORM = {
+  title: '', category: '', price: '', originalPrice: '', unit: '',
+  image: '', description: '', inStock: true,
+  free_delivery_enabled: false, free_delivery_min_amount: '',
+};
 
 const ManageProducts = () => {
   const axiosSecure = useAxiosSecure();
@@ -41,7 +45,13 @@ const ManageProducts = () => {
 
   const openAdd = () => { setForm(EMPTY_FORM); setFormErr({}); setEditId(null); setModal('add'); };
   const openEdit = (p) => {
-    setForm({ title: p.title, category: p.category, price: p.price, originalPrice: p.originalPrice || '', unit: p.unit, image: p.image || '', description: p.description || '', inStock: p.inStock !== false });
+    setForm({
+      title: p.title, category: p.category, price: p.price,
+      originalPrice: p.originalPrice || '', unit: p.unit, image: p.image || '',
+      description: p.description || '', inStock: p.inStock !== false,
+      free_delivery_enabled: p.free_delivery_enabled === true,
+      free_delivery_min_amount: p.free_delivery_min_amount || '',
+    });
     setFormErr({});
     setEditId(p._id);
     setModal('edit');
@@ -50,7 +60,13 @@ const ManageProducts = () => {
   const handleSave = async () => {
     if (!validate()) return;
     setSaving(true);
-    const payload = { ...form, price: Number(form.price), originalPrice: Number(form.originalPrice) || 0 };
+    const payload = {
+      ...form,
+      price: Number(form.price),
+      originalPrice: Number(form.originalPrice) || 0,
+      free_delivery_enabled: form.free_delivery_enabled === true,
+      free_delivery_min_amount: Number(form.free_delivery_min_amount) || 0,
+    };
     try {
       if (modal === 'add') {
         await axiosSecure.post('/products', payload);
@@ -160,7 +176,7 @@ const ManageProducts = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-50">
-                  {['#', 'Product Identity', 'Category', 'Pricing', 'Unit', 'Status', 'Actions'].map(h => (
+                  {['#', 'Product Identity', 'Category', 'Pricing', 'Unit', 'Free Delivery', 'Status', 'Actions'].map(h => (
                     <th key={h} className="px-6 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
@@ -202,6 +218,16 @@ const ManageProducts = () => {
                         {p.originalPrice > 0 && <p className="text-[10px] text-gray-400 font-bold line-through">৳{p.originalPrice}</p>}
                       </td>
                       <td className="px-6 py-6 text-gray-400 font-bold text-xs">{p.unit}</td>
+                      <td className="px-6 py-6">
+                        {p.free_delivery_enabled ? (
+                          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-700 border border-emerald-100">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            ৳{p.free_delivery_min_amount?.toLocaleString() || 0}+
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold text-gray-300">—</span>
+                        )}
+                      </td>
                       <td className="px-6 py-6">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${p.inStock !== false ? 'bg-green-50 text-green-700 border-green-100' : 'bg-gray-50 text-gray-400 border-gray-100'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${p.inStock !== false ? 'bg-green-500 animate-pulse' : 'bg-gray-300'}`} />
@@ -320,6 +346,55 @@ const ManageProducts = () => {
                   >
                     <span className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-lg transition-transform ${form.inStock ? 'translate-x-6' : ''}`} />
                   </button>
+                </div>
+
+                {/* ── Free Delivery Section ─────────────────────────────── */}
+                <div className="p-6 bg-emerald-50/60 rounded-3xl border border-emerald-100 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-black text-gray-900 tracking-tight uppercase">Free Delivery Rule</p>
+                      <p className="text-[10px] font-bold text-gray-400 mt-0.5">Enable free delivery when spend threshold is met</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setForm(f => ({ ...f, free_delivery_enabled: !f.free_delivery_enabled }))}
+                      className={`relative w-14 h-8 rounded-full transition-all ring-4 ring-offset-2 ${
+                        form.free_delivery_enabled ? 'bg-emerald-600 ring-emerald-100' : 'bg-gray-300 ring-transparent'
+                      }`}
+                    >
+                      <span className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-lg transition-transform ${
+                        form.free_delivery_enabled ? 'translate-x-6' : ''
+                      }`} />
+                    </button>
+                  </div>
+
+                  <AnimatePresence>
+                    {form.free_delivery_enabled && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pt-2">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 block">
+                            Min. Spend to Unlock Free Delivery (৳) <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={form.free_delivery_min_amount}
+                            onChange={e => setForm(f => ({ ...f, free_delivery_min_amount: e.target.value }))}
+                            className={inputCls('free_delivery_min_amount')}
+                            placeholder="e.g. 500"
+                          />
+                          <p className="text-[10px] font-medium text-emerald-700 mt-2">
+                            🎁 Customer gets free delivery when their total spend on this product reaches ৳{form.free_delivery_min_amount || '—'}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
 
