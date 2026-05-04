@@ -47,7 +47,7 @@ const MultiImageUploadField = ({ values = [], onChange, label, placeholder = "ht
       )}
 
       {/* Grid of Images */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {values.map((url, index) => (
           <div key={index} className="relative w-full aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-2 flex items-center justify-center group">
             <img src={url} alt={`Preview ${index + 1}`} className="h-full object-contain mix-blend-multiply" />
