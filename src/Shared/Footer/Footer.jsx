@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Mail, Phone, ArrowUpRight, ArrowUp, Send } from 'lucide-react';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 
@@ -67,16 +67,12 @@ const Footer = () => {
               Redleaf-BD brings organic, fresh, and handpicked daily necessities right to your door. We believe in quality, trust, and halal living.
             </p>
             <div className="flex gap-3 mt-1">
-              <a href="https://www.facebook.com/share/1Nhgq1nMpP/" target="_blank" rel="noopener noreferrer"
+              {[FaFacebook, FaTwitter, FaInstagram, FaYoutube].map((Icon, i) => (
+                <a key={i} href="#"
                   className="w-9 h-9 rounded-full border border-red-200 bg-red-50 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white hover:-translate-y-1 transition-all duration-300">
-                  <FaFacebook size={15} />
+                  <Icon size={15} />
                 </a>
-                {[FaTwitter, FaInstagram, FaYoutube].map((Icon, i) => (
-                  <a key={i} href="#"
-                    className="w-9 h-9 rounded-full border border-red-200 bg-red-50 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white hover:-translate-y-1 transition-all duration-300">
-                    <Icon size={15} />
-                  </a>
-                ))}
+              ))}
             </div>
           </div>
 
@@ -137,15 +133,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="text-red-500 shrink-0" size={16} />
-                <span>+8809638898288</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FaWhatsapp className="text-[#25D366] shrink-0" size={16} />
-                <span>+880 1816-126055</span>
+                <span>+880 1234-567890</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-red-500 shrink-0" size={16} />
-                <span>support@redleaf-bd.com</span>
+                <span>support@redleafbd.com</span>
               </li>
             </ul>
 

@@ -43,7 +43,7 @@ const ImageUploadField = ({ value, onChange, label, placeholder = "https://unspl
         </div>
 
         {/* Upload Zone */}
-        <div 
+        <div
           onClick={() => fileInputRef.current?.click()}
           className={`
             relative group cursor-pointer border-2 border-dashed rounded-[32px] p-8 transition-all flex flex-col items-center justify-center
@@ -66,7 +66,7 @@ const ImageUploadField = ({ value, onChange, label, placeholder = "https://unspl
           ) : value ? (
             <div className="relative w-full aspect-video md:aspect-auto md:h-48 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 p-2 flex items-center justify-center">
               <img src={value} alt="Preview" className="h-full object-contain mix-blend-multiply" />
-              <button 
+              <button
                 onClick={(e) => { e.stopPropagation(); clearImage(); }}
                 className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center text-red-600 shadow-lg hover:bg-red-600 hover:text-white transition-all active:scale-90"
               >
