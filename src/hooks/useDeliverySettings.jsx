@@ -11,7 +11,7 @@ const useDeliverySettings = () => {
             const res = await axiosPublic.get('/settings/delivery');
             return res.data;
         },
-        staleTime: 5 * 60 * 1000, // 5 min — settings change rarely
+        staleTime: 0, // Always fresh — delivery settings can change at any time
     });
 
     return [deliverySettings, refetch, isLoading];

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useDeliverySettings from '../../hooks/useDeliverySettings';
 import Swal from 'sweetalert2';
@@ -187,6 +187,7 @@ const ProductDeliveryRow = ({ product, onSaved }) => {
 ───────────────────────────────────────────────────────────────────────────── */
 const DeliverySettings = () => {
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
   const [deliverySettings, refetchSettings, isLoading] = useDeliverySettings();
 
   // Local editable copy of zone tiers
@@ -208,6 +209,11 @@ const DeliverySettings = () => {
     setIsSaving(true);
     try {
       await axiosSecure.put('/settings/delivery', { zones });
+      // Invalidate all caches so every component sees the new zone pricing immediately
+      await queryClient.invalidateQueries({ queryKey: ['deliverySettings'] });
+      await queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      await queryClient.invalidateQueries({ queryKey: ['delivery-products'] });
+      await queryClient.invalidateQueries({ queryKey: ['products'] });
       refetchSettings();
       Swal.fire({ icon: 'success', title: 'Zone Pricing Saved!', showConfirmButton: false, timer: 1400 });
     } catch {
@@ -246,8 +252,18 @@ const DeliverySettings = () => {
       const res = await axiosSecure.get(`/products?search=${search}&limit=100`);
       return res.data || { products: [] };
     },
+    staleTime: 0, // Always re-fetch — delivery toggles must be instant
   });
   const products = result.products || [];
+
+  // Shared invalidator used by ProductDeliveryRow after each save
+  const invalidateAllProductQueries = async () => {
+    await queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+    await queryClient.invalidateQueries({ queryKey: ['delivery-products'] });
+    await queryClient.invalidateQueries({ queryKey: ['products'] });
+    await queryClient.invalidateQueries({ queryKey: ['deliverySettings'] });
+    await refetchProducts();
+  };
 
   if (isLoading) {
     return (
@@ -400,7 +416,7 @@ const DeliverySettings = () => {
                 </thead>
                 <tbody>
                   {products.map(product => (
-                    <ProductDeliveryRow key={product._id} product={product} onSaved={refetchProducts} />
+                    <ProductDeliveryRow key={product._id} product={product} onSaved={invalidateAllProductQueries} />
                   ))}
                 </tbody>
               </table>

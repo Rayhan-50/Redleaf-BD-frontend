@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Package, Plus, Pencil, Trash2, Search, X, Check, Image as ImageIcon } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import ImageUploadField from '../../components/Dashboard/ImageUploadField';
@@ -16,6 +16,7 @@ const EMPTY_FORM = {
 
 const ManageProducts = () => {
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState(null); // null | 'add' | 'edit'
   const [form, setForm] = useState(EMPTY_FORM);
@@ -73,7 +74,11 @@ const ManageProducts = () => {
       } else {
         await axiosSecure.put(`/products/${editId}`, payload);
       }
-      await refetch();
+      // Invalidate ALL product-related queries so every component refreshes immediately
+      await queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      await queryClient.invalidateQueries({ queryKey: ['delivery-products'] });
+      await queryClient.invalidateQueries({ queryKey: ['products'] });
+      await queryClient.invalidateQueries({ queryKey: ['featured'] });
       setModal(null);
       Swal.fire({ 
         icon: 'success', 
@@ -107,7 +112,10 @@ const ManageProducts = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axiosSecure.delete(`/products/${product._id}`);
-        await refetch();
+        await queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+        await queryClient.invalidateQueries({ queryKey: ['delivery-products'] });
+        await queryClient.invalidateQueries({ queryKey: ['products'] });
+        await queryClient.invalidateQueries({ queryKey: ['featured'] });
         Swal.fire({ icon: 'success', title: 'Removed', showConfirmButton: false, timer: 1200 });
       }
     });

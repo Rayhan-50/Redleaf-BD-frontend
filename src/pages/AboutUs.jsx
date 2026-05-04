@@ -4,47 +4,47 @@ import { Leaf, ShieldCheck, Truck, Users, Heart, Award, ArrowRight } from 'lucid
 import { Link } from 'react-router-dom';
 
 const values = [
-  { 
-    icon: Leaf, 
-    title: 'Pure & Organic', 
+  {
+    icon: Leaf,
+    title: 'Pure & Organic',
     titleBn: 'শতভাগ অর্গানিক',
     desc: 'We source only verified organic and natural products directly from trusted Bangladeshi farmers.',
-    color: 'bg-red-50 text-red-600' 
+    color: 'bg-red-50 text-red-600'
   },
-  { 
-    icon: ShieldCheck, 
-    title: 'Quality Checked', 
+  {
+    icon: ShieldCheck,
+    title: 'Quality Checked',
     titleBn: 'মানসম্পন্ন পণ্য',
     desc: 'Every product passes our strict quality check before it reaches your kitchen. No compromise.',
-    color: 'bg-red-50 text-red-600' 
+    color: 'bg-red-50 text-red-600'
   },
-  { 
-    icon: Truck, 
-    title: 'Express Delivery', 
+  {
+    icon: Truck,
+    title: 'Express Delivery',
     titleBn: 'দ্রুত ডেলিভারি',
     desc: 'Fresh groceries delivered to your doorstep within 2 hours in Dhaka City.',
-    color: 'bg-red-50 text-red-600' 
+    color: 'bg-red-50 text-red-600'
   },
-  { 
-    icon: Users, 
-    title: 'Community First', 
+  {
+    icon: Users,
+    title: 'Community First',
     titleBn: 'কৃষকের পাশে',
     desc: 'We support local farmers and micro-entrepreneurs, building a stronger food supply chain.',
-    color: 'bg-red-50 text-red-600' 
+    color: 'bg-red-50 text-red-600'
   },
-  { 
-    icon: Heart, 
-    title: 'Customer First', 
+  {
+    icon: Heart,
+    title: 'Customer First',
     titleBn: 'আপনার সন্তুষ্টি',
     desc: 'Your satisfaction is our #1 priority. Our support team is here 24/7 to assist you.',
-    color: 'bg-red-50 text-red-600' 
+    color: 'bg-red-50 text-red-600'
   },
-  { 
-    icon: Award, 
-    title: 'Halal Assurance', 
+  {
+    icon: Award,
+    title: 'Halal Assurance',
     titleBn: 'হালাল নিশ্চয়তা',
     desc: 'We strictly ensure all products are halal and processed following ethical guidelines.',
-    color: 'bg-red-50 text-red-600' 
+    color: 'bg-red-50 text-red-600'
   },
 ];
 
@@ -58,28 +58,28 @@ const stats = [
 const AboutUs = () => {
   return (
     <div className="bg-white overflow-x-hidden pt-10 font-['Poppins']">
-      
+
       {/* ── Hero Section ── */}
       <section className="relative min-h-[500px] flex items-center justify-center bg-gradient-to-br from-red-700 via-red-600 to-red-800 py-20 px-4 text-white overflow-hidden">
         {/* Background Decorations */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-black/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
-        
+
         <div className="container mx-auto text-center relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }} 
-            animate={{ opacity: 1, y: 0 }} 
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             <span className="inline-flex items-center gap-2 bg-white/20 border border-white/30 text-white text-xs md:text-sm font-bold tracking-widest uppercase px-6 py-2 rounded-full mb-8 backdrop-blur-sm">
               ফরমালিনমুক্ত খাবারের নতুন বিপ্লব
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight">
-              Bangladesh's Most Trusted <br /> 
+              Bangladesh's Most Trusted <br />
               <span className="text-yellow-400">Premium Grocery</span> Shop
             </h1>
             <p className="text-red-50 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-medium mb-10 opacity-90">
-              Redleaf-BD connects you with fresh, organic, and toxin-free grocery products directly from farm to table. 
+              Redleaf-BD connects you with fresh, organic, and toxin-free grocery products directly from farm to table.
               সরাসরি কৃষকের মাঠ থেকে আপনার দরজায় পৌঁছানো আমাদের অঙ্গীকার।
             </p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -98,8 +98,8 @@ const AboutUs = () => {
       <div className="relative z-20 -mt-12 container mx-auto px-4 lg:px-20">
         <div className="bg-white rounded-2xl shadow-2xl shadow-red-500/10 border border-red-50 grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-100 p-8">
           {stats.map((s, i) => (
-            <motion.div 
-              key={i} 
+            <motion.div
+              key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
@@ -118,11 +118,11 @@ const AboutUs = () => {
       <section className="relative py-24 px-4 overflow-hidden bg-white min-h-[600px] flex items-center">
         {/* Background Image with Gradient Mask */}
         <div className="absolute top-0 left-0 w-full lg:w-3/4 h-full pointer-events-none z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&q=80&w=1200" 
-            alt="Organic Field" 
+          <img
+            src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&q=80&w=1200"
+            alt="Organic Field"
             className="w-full h-full object-cover opacity-60 mix-blend-multiply"
-            style={{ 
+            style={{
               maskImage: 'linear-gradient(to right, black 50%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to right, black 50%, transparent 100%)'
             }}
@@ -131,12 +131,12 @@ const AboutUs = () => {
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="flex flex-col lg:flex-row items-center">
-            
+
             {/* Left Spacer for the image visibility */}
             <div className="hidden lg:block lg:flex-1" />
 
             {/* Content side */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -145,14 +145,14 @@ const AboutUs = () => {
             >
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                   <div className="w-12 h-[2px] bg-red-600" />
-                   <span className="text-red-600 font-black text-sm uppercase tracking-[0.3em]">Our Story</span>
+                  <div className="w-12 h-[2px] bg-red-600" />
+                  <span className="text-red-600 font-black text-sm uppercase tracking-[0.3em]">Our Story</span>
                 </div>
-                
+
                 <h2 className="text-4xl md:text-6xl font-black text-gray-900 leading-[1.1]">
                   নিখুঁত বিশুদ্ধতার <br /> এক নতুন গল্প
                 </h2>
-                
+
                 <p className="text-2xl font-bold text-red-600 italic">
                   Restoring trust in every kitchen.
                 </p>
@@ -160,19 +160,19 @@ const AboutUs = () => {
 
               <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-medium">
                 <p>
-                  At Redleaf-BD, we started with a simple observation: <span className="text-gray-900 font-bold">Purity is rare.</span> 
-                  In a market filled with shortcuts and lack of transparency, our journey began 
+                  At Redleaf-BD, we started with a simple observation: <span className="text-gray-900 font-bold">Purity is rare.</span>
+                  In a market filled with shortcuts and lack of transparency, our journey began
                   to connect honest farmers directly with conscious consumers.
                 </p>
-                
+
                 <p>
-                  <span className="text-red-600 font-bold">ফরমালিনমুক্ত খাবারের অঙ্গীকার : </span> 
-                  We don't just sell products; we deliver a promise. Every drop of honey, every 
-                  grain of rice, and every pinch of spice is vetted by our own quality 
-                  assurrance team. 
+                  <span className="text-red-600 font-bold">ফরমালিনমুক্ত খাবারের অঙ্গীকার : </span>
+                  We don't just sell products; we deliver a promise. Every drop of honey, every
+                  grain of rice, and every pinch of spice is vetted by our own quality
+                  assurrance team.
                 </p>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-8 pt-4">
                 <div className="space-y-2">
                   <h4 className="text-3xl font-black text-gray-900 italic">2022</h4>
@@ -195,7 +195,7 @@ const AboutUs = () => {
         </div>
 
         {/* Floating Badge (Decorative) */}
-        <motion.div 
+        <motion.div
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute bottom-20 left-10 md:left-20 bg-white shadow-2xl rounded-2xl p-6 border border-red-50 hidden md:block z-20"
@@ -208,14 +208,14 @@ const AboutUs = () => {
       {/* ── Values Grid ── */}
       <section className="py-24 bg-gray-50 px-4 relative overflow-hidden">
         {/* Design Texture - Subtle Dot Grid */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{
             backgroundImage: 'radial-gradient(circle, #dc2626 1px, transparent 1px)',
             backgroundSize: '24px 24px'
           }}
         />
-        
+
         {/* Decorative Gradients */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-100/30 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-100/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
@@ -224,14 +224,14 @@ const AboutUs = () => {
             <span className="text-red-600 font-black text-sm uppercase tracking-[0.3em]">Our Promise</span>
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 italic">আমাদের অঙ্গীকার</h2>
             <p className="text-gray-500 max-w-2xl mx-auto font-medium">
-              We operate on the principles of honesty, quality, and care. 
+              We operate on the principles of honesty, quality, and care.
               পণ্যর মান আমাদের কাছে বিক্রির চেয়েও বেশি গুরুত্বপূর্ণ।
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((v, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -257,8 +257,8 @@ const AboutUs = () => {
       <section className="relative h-[400px] flex items-center justify-center px-4 overflow-hidden">
         {/* Background Image Overlay */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1600" 
+          <img
+            src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1600"
             className="w-full h-full object-cover grayscale opacity-20"
           />
           <div className="absolute inset-0 bg-red-600 mix-blend-multiply" />
@@ -278,7 +278,7 @@ const AboutUs = () => {
               Join 50,000+ happy families today.Experience the Redleaf-BD standard.
             </p>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

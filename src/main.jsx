@@ -17,10 +17,10 @@ import SmoothCursor from './components/ui/SmoothCursor';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,    // 5 min — data is fresh, no refetch on navigation
-      gcTime:    1000 * 60 * 15,   // 15 min — keep unused data in memory
-      refetchOnWindowFocus: false,  // Don't refetch when switching tabs
-      retry: 1,                    // Only retry failed requests once
+      staleTime: 0,                // Always refetch — ensures admin changes are immediate
+      gcTime:    1000 * 60 * 10,  // 10 min — keep unused data in memory
+      refetchOnWindowFocus: true,  // Refetch when tab is focused (catches admin changes)
+      retry: 1,                   // Only retry failed requests once
     },
   },
 });
