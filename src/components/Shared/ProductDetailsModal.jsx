@@ -23,6 +23,8 @@ const ProductDetailsModal = ({ product, onClose }) => {
   const [activeTab, setActiveTab] = useState('Details');
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const productImages = product?.images?.length > 0 ? product.images : (product?.image ? [product.image] : []);
   
   const [deliverySettings] = useDeliverySettings();
   const dhakaCharge = deliverySettings?.dhaka || 80;
@@ -142,17 +144,32 @@ const ProductDetailsModal = ({ product, onClose }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4 sm:p-6 md:p-8">
           <div className="flex flex-col gap-4">
             <div className="w-full aspect-square sm:aspect-[4/3] md:aspect-square bg-gray-50/50 rounded-2xl relative flex items-center justify-center p-4 border border-gray-100 group overflow-hidden">
-              <img 
-                src={product.image} 
-                alt={product.title} 
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 mix-blend-multiply" 
-              />
+              <AnimatePresence mode="wait">
+                <motion.img 
+                  key={activeImageIndex}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                  src={productImages[activeImageIndex]} 
+                  alt={product.title} 
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 mix-blend-multiply" 
+                />
+              </AnimatePresence>
             </div>
-            <div className="hidden sm:flex gap-3 overflow-x-auto no-scrollbar">
-              <div className="w-16 h-16 shrink-0 border-2 border-red-600 rounded-lg overflow-hidden cursor-pointer p-1 bg-white">
-                <img src={product.image} alt="thumb-1" className="w-full h-full object-cover mix-blend-multiply rounded" />
+            {productImages.length > 1 && (
+              <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 px-1">
+                {productImages.map((imgUrl, idx) => (
+                  <div 
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`w-16 h-16 shrink-0 border-2 rounded-lg overflow-hidden cursor-pointer p-1 bg-white transition-all ${activeImageIndex === idx ? 'border-red-600 shadow-md ring-2 ring-red-100' : 'border-gray-200 hover:border-red-300 hover:shadow-sm'}`}
+                  >
+                    <img src={imgUrl} alt={`thumb-${idx}`} className="w-full h-full object-cover mix-blend-multiply rounded" />
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
 
           <div className="flex flex-col">

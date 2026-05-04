@@ -4,13 +4,13 @@ import { PackagePlus, Check, Image as ImageIcon, Sparkles, Navigation } from 'lu
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import ImageUploadField from '../../components/Dashboard/ImageUploadField';
+import MultiImageUploadField from '../../components/Dashboard/MultiImageUploadField';
 
 const CATEGORIES = ['Honey', 'Poultry & Meat', 'Rice & Grains', 'Oil', 'Spices', 'Super Foods', 'Tea & Snacks', 'Nuts & Dates', 'Pickle', 'Fruits & Veg', 'Electronics', 'Shoes', 'Clothing', 'Other'];
 
 const EMPTY_FORM = { 
   title: '', category: '', price: '', originalPrice: '', 
-  unit: '', image: '', description: '', highlights: '', inStock: true 
+  unit: '', images: [], description: '', highlights: '', inStock: true 
 };
 
 const AddProduct = () => {
@@ -53,6 +53,7 @@ const AddProduct = () => {
         ...form, 
         price: Number(form.price), 
         originalPrice: Number(form.originalPrice) || 0,
+        image: form.images[0] || '',
         highlights: formattedHighlights
     };
 
@@ -172,10 +173,11 @@ const AddProduct = () => {
           <div className="bg-white p-8 rounded-[40px] border border-gray-50 shadow-sm">
             <h3 className="text-lg font-black text-gray-900 tracking-tight uppercase mb-8">Media Stack</h3>
             
-            <ImageUploadField 
-              value={form.image} 
-              onChange={(url) => setForm(f => ({ ...f, image: url }))}
+            <MultiImageUploadField 
+              values={form.images} 
+              onChange={(urls) => setForm(f => ({ ...f, images: urls }))}
               placeholder="Paste visual endpoint..."
+              maxImages={4}
             />
 
             <div className="flex items-center justify-between p-6 bg-red-50/30 rounded-[32px] border border-red-50 mt-8">

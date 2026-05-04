@@ -4,13 +4,13 @@ import { Package, Plus, Pencil, Trash2, Search, X, Check, Image as ImageIcon } f
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-import ImageUploadField from '../../components/Dashboard/ImageUploadField';
+import MultiImageUploadField from '../../components/Dashboard/MultiImageUploadField';
 
 const CATEGORIES = ['Honey', 'Poultry & Meat', 'Rice & Grains', 'Oil', 'Spices', 'Super Foods', 'Tea & Snacks', 'Nuts & Dates', 'Pickle', 'Fruits & Veg', 'Electronics', 'Shoes', 'Clothing', 'Other'];
 
 const EMPTY_FORM = {
   title: '', category: '', price: '', originalPrice: '', unit: '',
-  image: '', description: '', inStock: true,
+  images: [], description: '', inStock: true,
   free_delivery_enabled: false, free_delivery_min_amount: '',
 };
 
@@ -48,7 +48,7 @@ const ManageProducts = () => {
   const openEdit = (p) => {
     setForm({
       title: p.title, category: p.category, price: p.price,
-      originalPrice: p.originalPrice || '', unit: p.unit, image: p.image || '',
+      originalPrice: p.originalPrice || '', unit: p.unit, images: p.images || (p.image ? [p.image] : []),
       description: p.description || '', inStock: p.inStock !== false,
       free_delivery_enabled: p.free_delivery_enabled === true,
       free_delivery_min_amount: p.free_delivery_min_amount || '',
@@ -65,6 +65,7 @@ const ManageProducts = () => {
       ...form,
       price: Number(form.price),
       originalPrice: Number(form.originalPrice) || 0,
+      image: form.images[0] || '',
       free_delivery_enabled: form.free_delivery_enabled === true,
       free_delivery_min_amount: Number(form.free_delivery_min_amount) || 0,
     };
@@ -333,11 +334,12 @@ const ManageProducts = () => {
                   </div>
                 </div>
 
-                <ImageUploadField 
+                <MultiImageUploadField 
                   label="Visual Endpoint"
-                  value={form.image} 
-                  onChange={(url) => setForm(f => ({ ...f, image: url }))} 
+                  values={form.images} 
+                  onChange={(urls) => setForm(f => ({ ...f, images: urls }))} 
                   placeholder="https://unsplash..." 
+                  maxImages={4}
                 />
 
                 <div>
