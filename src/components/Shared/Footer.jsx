@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="bg-[#0A3D2A] text-gray-300 pt-16 pb-8 border-t-8 border-green-700 mt-auto">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          
+
           {/* Brand & Info */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 mb-2">
@@ -44,11 +44,11 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold text-lg mb-5 relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-1 after:bg-red-500">Top Categories</h4>
             <ul className="flex flex-col gap-3 text-sm font-medium">
-               <li><a href="#" className="hover:text-white transition-colors">Pure Honey</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Premium Rice & Grains</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Mustard Oil</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Organic Spices</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Fresh Meat & Poultry</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Pure Honey</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Premium Rice & Grains</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Mustard Oil</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Organic Spices</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Fresh Meat & Poultry</a></li>
             </ul>
           </div>
 
@@ -73,14 +73,14 @@ const Footer = () => {
                 <span>support@redleaf-bd.com</span>
               </li>
             </ul>
-            
+
             {/* Apps placeholder */}
             <div className="mt-6">
-               <p className="text-xs text-green-200 mb-2 font-semibold">Download our App</p>
-               <div className="flex gap-2">
-                 <div className="bg-gray-900 border border-gray-700 w-28 h-8 rounded shrink-0 flex items-center justify-center text-xs opacity-80 cursor-pointer hover:opacity-100 transition-opacity">Google Play</div>
-                 <div className="bg-gray-900 border border-gray-700 w-28 h-8 rounded shrink-0 flex items-center justify-center text-xs opacity-80 cursor-pointer hover:opacity-100 transition-opacity">App Store</div>
-               </div>
+              <p className="text-xs text-green-200 mb-2 font-semibold">Download our App</p>
+              <div className="flex gap-2">
+                <div className="bg-gray-900 border border-gray-700 w-28 h-8 rounded shrink-0 flex items-center justify-center text-xs opacity-80 cursor-pointer hover:opacity-100 transition-opacity">Google Play</div>
+                <div className="bg-gray-900 border border-gray-700 w-28 h-8 rounded shrink-0 flex items-center justify-center text-xs opacity-80 cursor-pointer hover:opacity-100 transition-opacity">App Store</div>
+              </div>
             </div>
           </div>
 
