@@ -86,9 +86,6 @@ const Footer = () => {
               {[
                 { to: '/about', label: 'About Us' },
                 { to: '/contact', label: 'Contact Us' },
-                { to: '/privacy', label: 'Privacy Policy' },
-                { to: '/terms', label: 'Terms & Conditions' },
-                { to: '/return', label: 'Return Policy' },
               ].map(({ to, label }) => (
                 <li key={to}>
                   <Link to={to}
