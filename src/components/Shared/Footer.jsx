@@ -21,7 +21,7 @@ const Footer = () => {
               Redleaf-BD is Bangladesh's most trusted online grocery delivery platform. We bring organic, fresh, and handpicked daily necessities right to your door.
             </p>
             <div className="flex gap-4 mt-2">
-              <a href="https://www.facebook.com/share/1Nhgq1nMpP/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaFacebook size={16} /></a>
+
               <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaTwitter size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaInstagram size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-green-800 flex items-center justify-center hover:bg-red-500 text-white transition-colors"><FaYoutube size={16} /></a>
