@@ -131,8 +131,8 @@ const Footer = () => {
                 <span>Banani, Dhaka-1213, Bangladesh</span>
               </li>
               <li className="flex items-center gap-3">
-                <FaWhatsapp className="text-[#25D366] shrink-0" size={16} />
-                <span>+880 1816-126055</span>
+                <Phone className="text-red-500 shrink-0" size={16} />
+                <span>+8809638898288</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-red-500 shrink-0" size={16} />
