@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Mail, Phone, ArrowUpRight, ArrowUp, Send } from 'lucide-react';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 
@@ -131,8 +131,8 @@ const Footer = () => {
                 <span>Banani, Dhaka-1213, Bangladesh</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="text-red-500 shrink-0" size={16} />
-                <span>+8809638898288</span>
+                <FaWhatsapp className="text-[#25D366] shrink-0" size={16} />
+                <span>+880 1816-126055</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-red-500 shrink-0" size={16} />
