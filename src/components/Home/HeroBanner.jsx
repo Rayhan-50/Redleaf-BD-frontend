@@ -29,7 +29,7 @@ const categories = [
   { id: 9,  name: 'Pickle & Chutney',     icon: <IconWrapper><TbLemon className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=pickles',    hasChildren: true },
   { id: 10, name: 'Fruits & Vegetables',  icon: <IconWrapper><TbApple className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=fruits',     hasChildren: true },
   { id: 11, name: 'Electronics',          icon: <IconWrapper><TbDeviceLaptop className="w-4 h-4 stroke-[2]" /></IconWrapper>, slug: '/products?cat=electronics', hasChildren: true },
-  { id: 12, name: 'Shoes',                icon: <IconWrapper><TbRun className="w-4 h-4 stroke-[2]" /></IconWrapper>,          slug: '/products?cat=shoes',      hasChildren: true },
+  { id: 12, name: 'Shoe & Bags',                icon: <IconWrapper><TbRun className="w-4 h-4 stroke-[2]" /></IconWrapper>,          slug: '/products?cat=shoes',      hasChildren: true },
   { id: 13, name: 'Clothing',             icon: <IconWrapper><TbShirt className="w-4 h-4 stroke-[2]" /></IconWrapper>,        slug: '/products?cat=clothing',   hasChildren: true },
 ];
 

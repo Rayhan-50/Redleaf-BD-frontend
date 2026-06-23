@@ -6,7 +6,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import MultiImageUploadField from '../../components/Dashboard/MultiImageUploadField';
 
-const CATEGORIES = ['Honey', 'Poultry & Meat', 'Rice & Grains', 'Oil', 'Spices', 'Super Foods', 'Tea & Snacks', 'Nuts & Dates', 'Pickle', 'Fruits & Veg', 'Electronics', 'Shoes', 'Clothing', 'Other'];
+const CATEGORIES = ['Honey', 'Poultry & Meat', 'Rice & Grains', 'Oil', 'Spices', 'Super Foods', 'Tea & Snacks', 'Nuts & Dates', 'Pickle', 'Fruits & Veg', 'Electronics', 'Shoe & Bags', 'Clothing', 'Other'];
 
 const EMPTY_FORM = {
   title: '', category: '', price: '', originalPrice: '', unit: '',

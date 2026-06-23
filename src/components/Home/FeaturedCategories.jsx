@@ -15,7 +15,7 @@ const categories = [
   { id: 9,  name: 'Pickle',               icon: <TbLemon />,         slug: 'pickles',     color: 'text-lime-600',  bg: 'bg-lime-50',    border: 'border-lime-100' },
   { id: 10, name: 'Fruits & Veg',         icon: <TbApple />,         slug: 'fruits',      color: 'text-green-700', bg: 'bg-green-100',  border: 'border-green-200' },
   { id: 11, name: 'Electronics',          icon: <TbDeviceLaptop />,  slug: 'electronics', color: 'text-blue-600',  bg: 'bg-blue-50',    border: 'border-blue-100' },
-  { id: 12, name: 'Shoes',                icon: <TbRun />,           slug: 'shoes',       color: 'text-purple-600',bg: 'bg-purple-50',  border: 'border-purple-100' },
+  { id: 12, name: 'Shoe & Bags',                icon: <TbRun />,           slug: 'shoes',       color: 'text-purple-600',bg: 'bg-purple-50',  border: 'border-purple-100' },
   { id: 13, name: 'Clothing',             icon: <TbShirt />,         slug: 'clothing',    color: 'text-pink-600',  bg: 'bg-pink-50',    border: 'border-pink-100' },
 ];
 

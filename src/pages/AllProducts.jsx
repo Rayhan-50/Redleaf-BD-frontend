@@ -20,7 +20,7 @@ const categories = [
   { id: 'pickles', name: 'Pickle', icon: <TbLemon className="w-5 h-5" />, slug: 'pickles' },
   { id: 'fruits', name: 'Fruits & Veg', icon: <TbApple className="w-5 h-5" />, slug: 'fruits' },
   { id: 'electronics', name: 'Electronics', icon: <TbDeviceLaptop className="w-5 h-5" />, slug: 'electronics' },
-  { id: 'shoes', name: 'Shoes', icon: <TbRun className="w-5 h-5" />, slug: 'shoes' },
+  { id: 'shoes', name: 'Shoe & Bags', icon: <TbRun className="w-5 h-5" />, slug: 'shoes' },
   { id: 'clothing', name: 'Clothing', icon: <TbShirt className="w-5 h-5" />, slug: 'clothing' },
 ];
 
